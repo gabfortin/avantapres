@@ -80,6 +80,11 @@ python3 -m http.server 8000
 
 Aucune action GitHub (workflow) n'est nécessaire — le site est 100 % statique.
 
+> Les balises `og:image` / `og:url` / `twitter:image` dans `index.html`
+> pointent déjà vers `https://gabfortin.github.io/avantapres/` (déduit du
+> remote `origin`). Si le dépôt ou le nom d'utilisateur GitHub change un
+> jour, mets ces URLs à jour pour que l'aperçu de partage reste correct.
+
 ## Technologies
 
 - [Leaflet](https://leafletjs.com/) + fonds de carte [CARTO](https://carto.com/basemaps)
