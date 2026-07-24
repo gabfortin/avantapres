@@ -97,5 +97,93 @@
     "author": "Alex Norris",
     "before": { "image": "data/points/napoleon-est/before.jpg", "date": "" },
     "after": { "image": "data/points/napoleon-est/after.jpg", "date": "2025-05" }
+  },
+  {
+    "id": "parc-laurier",
+    "title": "Parc Laurier",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.53111130287047, 
+    "lng": -73.5859310200262,
+    "description": "Dans l'image en haut, l'ancienne prolongation de la rue Christophe-Colomb, à l'intérieur du parc Sir-Wilfred-Laurier, qui menait auparavant à un terrain de stationnement devant le chalet de parc que nous avons également désasphalté et verdi. En bas, l'entrée du parc tel qu'il est qu'aménagé aujourd'hui. Ce projet fut le premier de ce genre qu'on a implanté dans l'arrondissement.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/parc-laurier/avant.png", "date": "" },
+    "after": { "image": "data/points/parc-laurier/apres.png", "date": "2023-02" }
+  },
+  {
+    "id": "parc-lahaie",
+    "title": "Parc Lahaie",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.519187,
+    "lng": -73.583187,
+    "description": "Le désasphaltage et réaménagement de la rue Saint-Dominique devant l'église Saint-Enfant-Jésus a permis d'installer une fontaine, une promenade piétonnière, des bancs et des plantations là où il y avait du stationnement et ainsi d'agrandir le parc Lahaie dans le Mile End.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/parc-lahaie/avant.png", "date": "" },
+    "after": { "image": "data/points/parc-lahaie/apres.png", "date": "2023-02" }
+  },
+  {
+    "id": "parc-baldwin",
+    "title": "Parc Baldwin",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.53643227756714, 
+    "lng": -73.56794064029145,
+    "description": "La rue Marie-Anne coupait auparavant le parc Baldwin en deux, jusqu'à ce qu'on la désasphalte pour l'intégrer à ce parc dans l'est du Plateau.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/parc-baldwin/avant.png", "date": "" },
+    "after": { "image": "data/points/parc-baldwin/apres.png", "date": "2013" }
+  },
+  {
+    "id": "parc-compagnons",
+    "title": "Parc des Compagnons-de-Saint-Laurent",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.533129814329016, 
+    "lng": -73.57290508022253,
+    "description": "Ce stationnement dans le parc des Compagnons-de-Saint-Laurent a récemment été transformé en aire de jeux, jeux d'eau et espace gazonné.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/parc-compagnons/avant.png", "date": "" },
+    "after": { "image": "data/points/parc-compagnons/apres.png", "date": "2023-02" }
+  },
+  {
+    "id": "terrasse-mercure",
+    "title": "Terrasse Mercure",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.535547809126484, 
+    "lng": -73.56600633196226,
+    "description": "La rue Terrasse-Mercure, située au sud du parc Baldwin, a été transformée en allée piétonnière.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/terrasse-mercure/avant.png", "date": "" },
+    "after": { "image": "data/points/terrasse-mercure/apres.png", "date": "2023-02" }
+  },
+  {
+    "id": "parc-laurier-statio",
+    "title": "Stationnement du parc Laurier",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.53175296520404, 
+    "lng": -73.58699844193069,
+    "description": "Ce stationnement devant le chalet du parc Laurier a été transformé en espace de détente. Un peu plus au sud, une fontaine décorative a été installée là où des voitures stationnaient auparavant.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/parc-laurier-statio/avant.png", "date": "" },
+    "after": { "image": "data/points/parc-laurier-statio/apres.png", "date": "2023-02" }  
+  },
+  {
+    "id": "bretelle-clark",
+    "title": "Bretelle Clark et Van Horne",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.527662530090794, 
+    "lng": -73.60517784147255,
+    "description": "Cette bretelle de style autoroutier qui menait de l'avenue Van Horne à la rue Clark a été supprimée et verdie, créant un lien apaisé et sécuritaire entre les parcs Lhasa-de-Sela et Sans Nom.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/bretelle-clark/avant.png", "date": "" },
+    "after": { "image": "data/points/bretelle-clark/apres.png", "date": "2023-02" }
+  },
+  {
+    "id": "rue-emile-duploye",
+    "title": "Rue Émile-Duployé",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.52900739926175, 
+    "lng": -73.5684693336726,
+    "description": "La rue Émile-Duployé a récemment été piétonnisée là où elle coupait le parc La Fontaine en deux. Cela s'ajoute à la rue Calixa-Lavallée, dont la partie nord a été transformée en aire de détente.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/rue-emile-duploye/avant.png", "date": "" },
+    "after": { "image": "data/points/rue-emile-duploye/apres.png", "date": "2023-02" } 
   }
 ]
