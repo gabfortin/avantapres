@@ -53,5 +53,27 @@
     "author": "Alex Norris",
     "before": { "image": "data/points/chemin-mont-royal/before.jpg", "date": "" },
     "after": { "image": "data/points/chemin-mont-royal/after.jpg", "date": "2026-07" }
+  },
+  {
+    "id": "burner-alley",
+    "title": "Burner Alley",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.51793891388939, 
+    "lng": -73.57643233873665,
+    "description": "« Burner Alley », la ruelle verte au sud de la rue Napoléon, entre les avenues Laval et Hôtel-de-Ville, avant et après sa transformation.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/burner-alley/before.jpg", "date": "" },
+    "after": { "image": "data/points/burner-alley/after.jpg", "date": "2026-07" }
+  },
+  {
+    "id": "tara-hall",
+    "title": "Rue Tara Hall",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.511565411220346, 
+    "lng": -73.57200648408762,
+    "description": "Projet de verdissement de la rue Tara Hall.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/tara-hall/before.jpg", "date": "" },
+    "after": { "image": "data/points/tara-hall/after.jpg", "date": "2025-09" }
   }
 ]
