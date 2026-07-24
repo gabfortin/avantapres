@@ -1,42 +1,35 @@
 [
-  {
-    "id": "rue-wellington-verdun",
-    "title": "Rue Wellington",
-    "borough": "Verdun",
-    "lat": 45.4589,
-    "lng": -73.5695,
-    "description": "Exemple — Réaménagement d'une artère commerciale : élargissement des trottoirs, plantation d'arbres et ajout de mobilier urbain pour redonner la rue aux piétons.",
-    "before": { "image": "data/points/rue-wellington-verdun/before.svg", "date": "2018-05" },
-    "after": { "image": "data/points/rue-wellington-verdun/after.svg", "date": "2023-08" }
+    {
+    "id": "duluth-est",
+    "title": "Duluth est",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.51704331458787, 
+    "lng": -73.57929060149773,
+    "description": " Avenue Duluth, vue vers l'est à partir du Boulevard Saint-Laurent.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/duluth-est/before.jpeg", "date": "" },
+    "after": { "image": "data/points/duluth-est/after.jpg", "date": "2026-07" }
   },
   {
-    "id": "ruelle-verte-rosemont",
-    "title": "Ruelle verte",
-    "borough": "Rosemont–La Petite-Patrie",
-    "lat": 45.5480,
-    "lng": -73.5790,
-    "description": "Exemple — Une ruelle asphaltée transformée en ruelle verte avec pavés perméables, plates-bandes citoyennes et îlots de fraîcheur.",
-    "before": { "image": "data/points/ruelle-verte-rosemont/before.svg", "date": "2017-09" },
-    "after": { "image": "data/points/ruelle-verte-rosemont/after.svg", "date": "2022-07" }
+    "id": "clark-verdissement",
+    "title": "Clark entre Rachel et Marie-Anne",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.518004092182494, 
+    "lng": -73.58327477815929,
+    "description": "Rue Clark entre Rachel et Marie-Anne. Projet local de verdissement, Arrondissement du Plateau-Mont-Royal. Arbre planté à l'été 2025.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/clark-verdissement/before.jpg", "date": "" },
+    "after": { "image": "data/points/clark-verdissement/after.jpg", "date": "2026-07" }
   },
   {
-    "id": "place-publique-plateau",
-    "title": "Place publique",
-    "borough": "Le Plateau-Mont-Royal",
-    "lat": 45.5227,
-    "lng": -73.5847,
-    "description": "Exemple — Une ancienne intersection minérale convertie en place publique avec bancs, arbres et espace de rencontre pour le voisinage.",
-    "before": { "image": "data/points/place-publique-plateau/before.svg", "date": "2019-04" },
-    "after": { "image": "data/points/place-publique-plateau/after.svg", "date": "2024-06" }
-  },
-  {
-    "id": "parc-villeray",
-    "title": "Parc de quartier",
-    "borough": "Villeray–Saint-Michel–Parc-Extension",
-    "lat": 45.5477,
-    "lng": -73.6153,
-    "description": "Exemple — Un stationnement sous-utilisé remplacé par un mini-parc avec arbres matures, jardin de pluie et sentier accessible.",
-    "before": { "image": "data/points/parc-villeray/before.svg", "date": "2016-10" },
-    "after": { "image": "data/points/parc-villeray/after.svg", "date": "2021-09" }
+    "id": "napoleon-verdissement",
+    "title": "Napoléon entre Rachel et Marie-Anne",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.516632506932694, 
+    "lng": -73.57769665086094,
+    "description": "Rue Napoléon entre la rue Saint-Dominique et le Boulevard Saint-Laurent. Projet local de verdissement : arrondissement du Plateau-Mont-Royal.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/napoleon-verdissement/before.jpg", "date": "" },
+    "after": { "image": "data/points/napoleon-verdissement/after.jpg", "date": "2026-07" }
   }
 ]

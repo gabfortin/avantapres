@@ -32,10 +32,15 @@ data/points/<slug>/          photos "avant" et "après" de chaque lieu
   "lat": 45.5142,
   "lng": -73.5904,
   "description": "Description courte du projet de verdissement.",
+  "author": "Prénom Nom",
   "before": { "image": "data/points/parc-jeanne-mance/before.jpg", "date": "2018-06" },
   "after":  { "image": "data/points/parc-jeanne-mance/after.jpg",  "date": "2024-09" }
 }
 ```
+
+- `author` : le nom de la personne qui a pris/soumis la comparaison. Affiché
+  dans le popup de la carte et dans le panneau de détail. Ce champ est
+  optionnel — s'il est absent, la ligne ne s'affiche simplement pas.
 
 - `lat` / `lng` : coordonnées GPS du lieu (clic droit sur Google Maps → copier
   les coordonnées, ou utilise [OpenStreetMap](https://www.openstreetmap.org)).

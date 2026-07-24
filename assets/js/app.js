@@ -39,7 +39,7 @@
       minZoom: 10,
       maxZoom: 18,
       attributionControl: true
-    }).setView([45.5335, -73.6, ], 11.5);
+    }).setView([45.5195, -73.5815], 15);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -76,12 +76,17 @@
 
       const marker = L.marker([pt.lat, pt.lng], { icon }).addTo(state.map);
 
+      const authorLine = pt.author
+        ? `<p class="popup-author">📸 Comparaison par <strong>${pt.author}</strong></p>`
+        : '';
+
       const popupHtml = `
         <div class="popup-card">
           <img class="popup-thumb" src="${pt.after.image}" alt="${pt.title}">
           <div class="popup-body">
             <h3>${pt.title}</h3>
             <p>${pt.borough}</p>
+            ${authorLine}
             <button class="popup-btn" type="button" data-open="${pt.id}">
               Voir l'avant / après
             </button>
@@ -155,6 +160,14 @@
     document.getElementById('meta-before-date').textContent = formatDate(pt.before.date);
     document.getElementById('meta-after-date').textContent = formatDate(pt.after.date);
 
+    const authorRow = document.getElementById('meta-author-row');
+    if (pt.author) {
+      document.getElementById('meta-author').textContent = pt.author;
+      authorRow.style.display = '';
+    } else {
+      authorRow.style.display = 'none';
+    }
+
     const sliderRoot = document.getElementById('ba-slider');
     buildSlider(sliderRoot, pt);
 
@@ -206,6 +219,7 @@
 
     function startDrag(e) {
       dragging = true;
+      if (e.type === 'mousedown') e.preventDefault();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       setPosition(pctFromEvent(clientX));
     }
