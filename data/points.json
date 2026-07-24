@@ -75,5 +75,27 @@
     "author": "Alex Norris",
     "before": { "image": "data/points/tara-hall/before.jpg", "date": "" },
     "after": { "image": "data/points/tara-hall/after.jpg", "date": "2025-09" }
+  },
+  {
+    "id": "jardins-du-monde",
+    "title": "Jardins du Monde",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.511820675478695, 
+    "lng": -73.57127707842653,
+    "description": "Jardins du Monde et des Premières nations, un nouvel espace public dédié à l’agriculture urbaine sur la rue Milton, à l’angle de la rue Saint-Urbain. Bravo à la principale instagrice du projet, Geneviève Dubé, son organisme Les Jardins collectifs de Milton Parc par Jardins pour Tous et ses bénévoles et partenaires, ma collègue Maeva Vilain, qui a piloté ce projet au sein de notre equipe d’élus du Plateau, ainsi que les professionnels de l’arrondissement et des partenaires impliqués dans sa réalisation ! Un ancien îlot de chaleur asphalté est maintenant un lieu de calme, de beauté, de verdure et d’échanges entre voisins !",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/jardins-du-monde/before.jpg", "date": "" },
+    "after": { "image": "data/points/jardins-du-monde/after.jpg", "date": "2025-06" }
+  },
+  {
+    "id": "napoleon-est",
+    "title": "Napoléon au coin Hôtel-de-Ville",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.518242058391536, 
+    "lng": -73.57624583906546,
+    "description": "Verdissement de la rue Napoléon. Vue vers l'est à partir de l'avenue de l'Hôtel-de-Ville.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/napoleon-est/before.jpg", "date": "" },
+    "after": { "image": "data/points/napoleon-est/after.jpg", "date": "2025-05" }
   }
 ]

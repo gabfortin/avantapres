@@ -76,17 +76,12 @@
 
       const marker = L.marker([pt.lat, pt.lng], { icon }).addTo(state.map);
 
-      const authorLine = pt.author
-        ? `<p class="popup-author">📸 Comparaison par <strong>${pt.author}</strong></p>`
-        : '';
-
       const popupHtml = `
         <div class="popup-card">
           <img class="popup-thumb" src="${pt.after.image}" alt="${pt.title}">
           <div class="popup-body">
             <h3>${pt.title}</h3>
             <p>${pt.borough}</p>
-            ${authorLine}
             <button class="popup-btn" type="button" data-open="${pt.id}">
               Voir l'avant / après
             </button>
@@ -140,6 +135,7 @@
     setTimeout(() => toast && toast.classList.add('hidden'), 7000);
 
     document.getElementById('detail-close').addEventListener('click', closeDetail);
+    document.getElementById('detail-close-mobile').addEventListener('click', closeDetail);
     document.getElementById('overlay-scrim').addEventListener('click', closeDetail);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeDetail();
@@ -234,10 +230,18 @@
 
     root.addEventListener('mousedown', startDrag);
     root.addEventListener('touchstart', startDrag, { passive: true });
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('touchmove', onMove, { passive: true });
-    window.addEventListener('mouseup', stopDrag);
-    window.addEventListener('touchend', stopDrag);
+
+    const ac = new AbortController();
+    const { signal } = ac;
+    window.addEventListener('mousemove', onMove, { signal });
+    window.addEventListener('touchmove', onMove, { passive: true, signal });
+    window.addEventListener('mouseup', stopDrag, { signal });
+    window.addEventListener('touchend', stopDrag, { signal });
+
+    const observer = new MutationObserver(() => {
+      if (!document.body.contains(root)) { ac.abort(); observer.disconnect(); }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
 
     if (showFullscreenBtn) {
       root.querySelector('.ba-fullscreen-btn').addEventListener('click', (e) => {
