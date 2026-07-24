@@ -703,9 +703,16 @@ a { color: inherit; }
     border-radius: 22px 22px 0 0;
     transform: translateY(105%);
     box-shadow: 0 -20px 50px -20px rgba(11,17,32,0.4);
+    overflow: hidden;
   }
 
   .detail-panel.open { transform: translateY(0); }
+
+  .detail-body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+  }
 
   .intro-toast { width: calc(100% - 32px); justify-content: center; text-align: center; bottom: 18px; }
 
