@@ -411,7 +411,7 @@ a { color: inherit; }
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(460px, 100%);
+  width: min(50vw, 100%);
   background: var(--surface);
   z-index: 1500;
   box-shadow: -20px 0 50px -20px rgba(11, 17, 32, 0.4);
@@ -507,7 +507,7 @@ a { color: inherit; }
 .ba-slider {
   position: relative;
   width: 100%;
-  aspect-ratio: 8 / 5;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
@@ -547,8 +547,8 @@ a { color: inherit; }
   text-transform: uppercase;
 }
 
-.ba-badge-before { left: 12px; background: rgba(120, 84, 43, 0.75); }
-.ba-badge-after { right: 12px; background: rgba(15, 122, 55, 0.82); }
+.ba-badge-before { left: 12px; background: rgba(120, 84, 43, 0.75); transition: opacity 0.15s ease; }
+.ba-badge-after { right: 12px; background: rgba(15, 122, 55, 0.82); transition: opacity 0.15s ease; }
 
 .ba-handle {
   position: absolute;
@@ -630,6 +630,7 @@ a { color: inherit; }
 .ba-fullscreen-inner {
   position: relative;
   width: min(92vw, 1100px);
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -637,10 +638,15 @@ a { color: inherit; }
 
 .ba-slider-fs {
   width: 100%;
-  aspect-ratio: unset;
-  height: min(75vh, 680px);
+  aspect-ratio: 4 / 3;
+  max-height: min(80vh, 820px);
   border-radius: 16px;
   overflow: hidden;
+  background: #000;
+}
+
+.ba-slider-fs .ba-img {
+  object-fit: contain;
 }
 
 .ba-fullscreen-title {

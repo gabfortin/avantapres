@@ -200,12 +200,23 @@
 
     const before = root.querySelector('.ba-before');
     const handle = root.querySelector('.ba-handle');
+    const badgeBefore = root.querySelector('.ba-badge-before');
+    const badgeAfter = root.querySelector('.ba-badge-after');
     let dragging = false;
 
     function setPosition(pct) {
       const clamped = Math.min(100, Math.max(0, pct));
       before.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`;
       handle.style.left = `${clamped}%`;
+
+      const containerWidth = root.getBoundingClientRect().width;
+      const handleX = containerWidth * clamped / 100;
+      const rootLeft = root.getBoundingClientRect().left;
+
+      const br = badgeBefore.getBoundingClientRect();
+      const ar = badgeAfter.getBoundingClientRect();
+      badgeBefore.style.opacity = handleX < br.right - rootLeft ? '0' : '1';
+      badgeAfter.style.opacity = handleX > ar.left - rootLeft ? '0' : '1';
     }
 
     function pctFromEvent(clientX) {
@@ -251,6 +262,15 @@
     }
 
     setPosition(50);
+
+    const afterEl = root.querySelector('.ba-after');
+    function applyNaturalRatio() {
+      if (afterEl.naturalWidth && afterEl.naturalHeight) {
+        root.style.aspectRatio = `${afterEl.naturalWidth} / ${afterEl.naturalHeight}`;
+      }
+    }
+    if (afterEl.complete) applyNaturalRatio();
+    else afterEl.addEventListener('load', applyNaturalRatio, { once: true });
   }
 
   function openFullscreenSlider(pt) {
@@ -266,6 +286,15 @@
 
     const sliderRoot = overlay.querySelector('.ba-slider-fs');
     buildSlider(sliderRoot, pt, { isFullscreen: true });
+
+    const afterEl = sliderRoot.querySelector('.ba-after');
+    function applyRatio() {
+      if (afterEl.naturalWidth && afterEl.naturalHeight) {
+        sliderRoot.style.aspectRatio = `${afterEl.naturalWidth} / ${afterEl.naturalHeight}`;
+      }
+    }
+    if (afterEl.complete) applyRatio();
+    else afterEl.addEventListener('load', applyRatio, { once: true });
 
     function close() {
       overlay.classList.remove('open');
