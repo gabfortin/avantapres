@@ -1,7 +1,7 @@
 [
     {
     "id": "duluth-est",
-    "title": "Duluth est",
+    "title": "Duluth Est",
     "borough": "Plateau-Mont-Royal",
     "lat": 45.51704331458787, 
     "lng": -73.57929060149773,
@@ -31,5 +31,27 @@
     "author": "Alex Norris",
     "before": { "image": "data/points/napoleon-verdissement/before.jpg", "date": "" },
     "after": { "image": "data/points/napoleon-verdissement/after.jpg", "date": "2026-07" }
+  },
+  {
+    "id": "duluth-ouest",
+    "title": "Duluth Ouest",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.51647405859694, 
+    "lng": -73.57985108356834,
+    "description": "Avenue Duluth à l'angle de la rue Clark. Vue en direction ouest vers le mont Royal.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/duluth-ouest/before.jpg", "date": "" },
+    "after": { "image": "data/points/duluth-ouest/after.jpg", "date": "2025-07" }
+  },
+  {
+    "id": "chemin-mont-royal",
+    "title": "Chemin multifonctionnel mont Royal",
+    "borough": "Ville-Marie",
+    "lat": 45.496907450785585, 
+    "lng": -73.60290569856438,
+    "description": "Nouveau chemin multifonctionnel au parc du Mont-Royal, entre le chemin de la Côte-des-Neiges et le lac aux Castors. Avant sa transformation en sentier cyclopédestre intégré au paysage du parc, cet espace était occupé par les voitures, qui circulaient vers l’est sur deux des quatre voies du chemin Remembrance. Les personnes qui souhaitaient accéder au parc depuis l’intersection des chemins Remembrance et de la Côte-des-Neiges devaient emprunter des trottoirs étroits et peu accueillants, en bordure de la circulation automobile. La réduction du chemin Remembrance de quatre à deux voies carrossables — une dans chaque direction — a permis de renaturaliser ce vaste secteur du parc et d’offrir une expérience immersive en pleine nature aux personnes qui accèdent au mont Royal à pied ou à vélo depuis le secteur de Côte-des-Neiges. La transformation est spectaculaire. C’est l’un des legs de l’administration de Projet Montréal sur le mont Royal dont je suis le plus fier.",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/chemin-mont-royal/before.jpg", "date": "" },
+    "after": { "image": "data/points/chemin-mont-royal/after.jpg", "date": "2026-07" }
   }
 ]

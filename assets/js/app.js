@@ -183,7 +183,8 @@
     document.getElementById('overlay-scrim').classList.remove('open');
   }
 
-  function buildSlider(root, pt) {
+  function buildSlider(root, pt, opts = {}) {
+    const showFullscreenBtn = !opts.isFullscreen;
     root.innerHTML = `
       <img class="ba-img ba-after" src="${pt.after.image}" alt="Après — ${pt.title}">
       <img class="ba-img ba-before" src="${pt.before.image}" alt="Avant — ${pt.title}">
@@ -194,7 +195,12 @@
         <div class="ba-handle-circle">
           <svg viewBox="0 0 24 24" fill="none"><path d="M8 6 3 12l5 6M16 6l5 6-5 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-      </div>`;
+      </div>
+      ${showFullscreenBtn ? `<button class="ba-fullscreen-btn" aria-label="Plein écran">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>
+        </svg>
+      </button>` : ''}`;
 
     const before = root.querySelector('.ba-before');
     const handle = root.querySelector('.ba-handle');
@@ -233,7 +239,43 @@
     window.addEventListener('mouseup', stopDrag);
     window.addEventListener('touchend', stopDrag);
 
+    if (showFullscreenBtn) {
+      root.querySelector('.ba-fullscreen-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        openFullscreenSlider(pt);
+      });
+    }
+
     setPosition(50);
+  }
+
+  function openFullscreenSlider(pt) {
+    const overlay = document.createElement('div');
+    overlay.className = 'ba-fullscreen-overlay';
+    overlay.innerHTML = `
+      <div class="ba-fullscreen-inner">
+        <div class="ba-slider ba-slider-fs"></div>
+        <div class="ba-fullscreen-title">${pt.title}</div>
+        <button class="ba-fullscreen-close" aria-label="Fermer">✕</button>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    const sliderRoot = overlay.querySelector('.ba-slider-fs');
+    buildSlider(sliderRoot, pt, { isFullscreen: true });
+
+    function close() {
+      overlay.classList.remove('open');
+      overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+      document.removeEventListener('keydown', onKey);
+    }
+
+    function onKey(e) { if (e.key === 'Escape') close(); }
+
+    overlay.querySelector('.ba-fullscreen-close').addEventListener('click', close);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', onKey);
+
+    requestAnimationFrame(() => overlay.classList.add('open'));
   }
 
   document.addEventListener('DOMContentLoaded', init);
