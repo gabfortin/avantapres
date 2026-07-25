@@ -194,7 +194,7 @@
     "lng": -73.58890307321381,
     "description": "L’avenue Laurier, près de l’édicule nord du métro Laurier, vue vers l’est. L’élargissement du trottoir et la suppression d’une voie de circulation en direction ouest ont permis de créer une nouvelle place publique bordée de rangées d’arbres aux abords du métro, ainsi que d’aménager deux voies cyclables. Ces nouveaux aménagements ont été inaugurés en 2013, vers la fin de notre premier mandat à la tête de l’arrondissement du Plateau-Mont-Royal.",
     "author": "Alex Norris",
-    "before": { "image": "data/points/metro-laurier/avant.png", "date": "" },
-    "after": { "image": "data/points/metro-laurier/apres.png", "date": "2026-07" }
+    "before": { "image": "data/points/metro-laurier/avant.jpg", "date": "" },
+    "after": { "image": "data/points/metro-laurier/apres.jpg", "date": "2026-07" }
   }
 ]
