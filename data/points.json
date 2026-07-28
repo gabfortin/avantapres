@@ -196,5 +196,16 @@
     "author": "Alex Norris",
     "before": { "image": "data/points/metro-laurier/avant.jpg", "date": "" },
     "after": { "image": "data/points/metro-laurier/apres.jpg", "date": "2026-07" }
+  },
+  {
+    "id": "napoleon-bullion",
+    "title": "Napoléon et de Bullion",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.51777594691165, 
+    "lng": -73.57687847020152,
+    "description": "La rue Napoléon, à l'angle de la rue de Bullion. Projet de verdissement de l'Arrondissement du Plateau-Mont-Royal. ",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/napoleon-bullion/avant.jpg", "date": "" },
+    "after": { "image": "data/points/napoleon-bullion/apres.jpg", "date": "2023-02" }
   }
 ]
