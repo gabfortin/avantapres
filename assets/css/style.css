@@ -11,6 +11,9 @@
   --grey: #64748b;
   --grey-dark: #475569;
   --grey-light: #a8b5c4;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-light: #60a5fa;
   --ink-900: #0b1120;
   --ink-700: #33413a;
   --ink-500: #5b6b62;
@@ -308,6 +311,9 @@ a { color: inherit; }
 .type-sidebar-item.type-agrandissement-parc .type-sidebar-swatch {
   background: linear-gradient(140deg, var(--forest), var(--forest-dark));
 }
+.type-sidebar-item.type-espace-pieton .type-sidebar-swatch {
+  background: linear-gradient(140deg, var(--blue-light), var(--blue-dark));
+}
 
 .type-sidebar-label { flex: 1; color: var(--ink-900); }
 
@@ -421,6 +427,15 @@ a { color: inherit; }
   box-shadow: 0 10px 20px -4px rgba(71, 85, 105, 0.75);
 }
 
+.growth-marker.type-espace-pieton .pin {
+  background: linear-gradient(140deg, var(--blue-light), var(--blue-dark));
+  box-shadow: 0 6px 14px -4px rgba(37, 99, 235, 0.6);
+}
+.growth-marker.type-espace-pieton .ring { background: var(--blue); }
+.growth-marker.type-espace-pieton:hover .pin {
+  box-shadow: 0 10px 20px -4px rgba(37, 99, 235, 0.75);
+}
+
 @keyframes pulse-ring {
   0% { transform: scale(0.6); opacity: 0.45; }
   80% { transform: scale(1.7); opacity: 0; }
@@ -495,6 +510,9 @@ a { color: inherit; }
 
 .popup-btn.type-panneau-publicitaire { background: var(--grey-dark); }
 .popup-btn.type-panneau-publicitaire:hover { background: var(--grey); }
+
+.popup-btn.type-espace-pieton { background: var(--blue-dark); }
+.popup-btn.type-espace-pieton:hover { background: var(--blue); }
 
 /* ---------- Intro toast ---------- */
 
@@ -670,6 +688,7 @@ a { color: inherit; }
 .detail-eyebrow.type-place-ecole { color: var(--purple-dark); background: rgba(147, 51, 234, 0.1); }
 .detail-eyebrow.type-panneau-publicitaire { color: var(--grey-dark); background: rgba(71, 85, 105, 0.1); }
 .detail-eyebrow.type-agrandissement-parc { color: var(--forest-dark); background: rgba(20, 83, 45, 0.1); }
+.detail-eyebrow.type-espace-pieton { color: var(--blue-dark); background: rgba(37, 99, 235, 0.1); }
 
 .detail-body h2 {
   margin: 0 0 6px;

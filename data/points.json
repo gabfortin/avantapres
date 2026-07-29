@@ -5,7 +5,7 @@
     "borough": "Plateau-Mont-Royal",
     "lat": 45.51704331458787, 
     "lng": -73.57929060149773,
-    "type": "vegetalisation",
+    "type": "espace-pieton",
     "description": " Avenue Duluth, vue vers l'est à partir du Boulevard Saint-Laurent.",
     "author": "Alex Norris",
     "before": { "image": "data/points/duluth-est/before.jpeg", "date": "" },
@@ -128,7 +128,7 @@
     "description": "Le désasphaltage et réaménagement de la rue Saint-Dominique devant l'église Saint-Enfant-Jésus a permis d'installer une fontaine, une promenade piétonnière, des bancs et des plantations là où il y avait du stationnement et ainsi d'agrandir le parc Lahaie dans le Mile End.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/parc-lahaie/avant.png", "date": "" },
+    "before": { "image": "data/points/parc-lahaie/avant.png", "date": "2007" },
     "after": { "image": "data/points/parc-lahaie/apres.png", "date": "2023-02" }
   },
   {
@@ -200,7 +200,7 @@
     "description": "La rue Émile-Duployé a récemment été piétonnisée là où elle coupait le parc La Fontaine en deux. Cela s'ajoute à la rue Calixa-Lavallée, dont la partie nord a été transformée en aire de détente.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/rue-emile-duploye/avant.png", "date": "" },
+    "before": { "image": "data/points/rue-emile-duploye/avant.png", "date": "2021-06" },
     "after": { "image": "data/points/rue-emile-duploye/apres.png", "date": "2023-02" } 
   },
   {
