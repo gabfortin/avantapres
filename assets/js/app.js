@@ -392,7 +392,19 @@
 
     setPosition(50);
 
-    applyCombinedAspectRatio(root);
+    if (opts.isFullscreen) applyFullscreenFit(root);
+    else applyCombinedAspectRatio(root);
+  }
+
+  function smallerImageRatio(afterEl, beforeEl) {
+    if (!afterEl.naturalWidth || !beforeEl.naturalWidth) return null;
+    const afterArea = afterEl.naturalWidth * afterEl.naturalHeight;
+    const beforeArea = beforeEl.naturalWidth * beforeEl.naturalHeight;
+    // Match the container to the smaller photo's format so both images
+    // share the same crop shape — the larger one gets cropped (via
+    // object-fit: cover) to fit, the smaller one is never touched.
+    const smaller = afterArea <= beforeArea ? afterEl : beforeEl;
+    return smaller.naturalWidth / smaller.naturalHeight;
   }
 
   function applyCombinedAspectRatio(root) {
@@ -400,14 +412,41 @@
     const beforeEl = root.querySelector('.ba-before');
 
     function update() {
-      if (!afterEl.naturalWidth || !beforeEl.naturalWidth) return;
-      const afterArea = afterEl.naturalWidth * afterEl.naturalHeight;
-      const beforeArea = beforeEl.naturalWidth * beforeEl.naturalHeight;
-      // Match the container to the smaller photo's format so both images
-      // share the same crop shape — the larger one gets cropped (via
-      // object-fit: cover) to fit, the smaller one is never touched.
-      const smaller = afterArea <= beforeArea ? afterEl : beforeEl;
-      root.style.aspectRatio = String(smaller.naturalWidth / smaller.naturalHeight);
+      const ratio = smallerImageRatio(afterEl, beforeEl);
+      if (ratio) root.style.aspectRatio = String(ratio);
+    }
+
+    [afterEl, beforeEl].forEach((img) => {
+      if (img.complete) update();
+      else img.addEventListener('load', update, { once: true });
+    });
+  }
+
+  function applyFullscreenFit(root) {
+    const afterEl = root.querySelector('.ba-after');
+    const beforeEl = root.querySelector('.ba-before');
+
+    function update() {
+      const ratio = smallerImageRatio(afterEl, beforeEl);
+      if (!ratio) return;
+
+      const isMobile = window.innerWidth <= 760;
+      const maxWidth = isMobile
+        ? window.innerWidth * 0.96
+        : Math.min(window.innerWidth * 0.92, 1100);
+      const maxHeight = isMobile
+        ? Math.min(window.innerHeight * 0.6, 420)
+        : Math.min(window.innerHeight * 0.8, 820);
+
+      let width = maxWidth;
+      let height = width / ratio;
+      if (height > maxHeight) {
+        height = maxHeight;
+        width = height * ratio;
+      }
+
+      root.style.width = `${Math.round(width)}px`;
+      root.style.height = `${Math.round(height)}px`;
     }
 
     [afterEl, beforeEl].forEach((img) => {

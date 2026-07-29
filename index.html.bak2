@@ -128,5 +128,6 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="assets/js/app.js?v=9"></script>
+<script>window.addEventListener("load", () => setTimeout(() => window.__debugOpenFullscreen("bretelle-clark"), 1000));</script>
 </body>
 </html>

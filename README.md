@@ -1,4 +1,4 @@
-# Avant / Après — Montréal qui verdit
+# Avant / Après — Amélioration de l'espace public
 
 Site statique présentant une carte interactive des espaces publics transformés
 et verdis à Montréal. Chaque point sur la carte affiche une comparaison
