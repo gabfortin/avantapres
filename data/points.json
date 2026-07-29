@@ -116,7 +116,7 @@
     "description": "Dans l'image en haut, l'ancienne prolongation de la rue Christophe-Colomb, à l'intérieur du parc Sir-Wilfred-Laurier, qui menait auparavant à un terrain de stationnement devant le chalet de parc que nous avons également désasphalté et verdi. En bas, l'entrée du parc tel qu'il est qu'aménagé aujourd'hui. Ce projet fut le premier de ce genre qu'on a implanté dans l'arrondissement.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/parc-laurier/avant.png", "date": "" },
+    "before": { "image": "data/points/parc-laurier/avant.png", "date": "2009-04" },
     "after": { "image": "data/points/parc-laurier/apres.png", "date": "2023-02" }
   },
   {
@@ -212,7 +212,7 @@
     "description": "L’avenue Laurier, près de l’édicule nord du métro Laurier, vue vers l’est. L’élargissement du trottoir et la suppression d’une voie de circulation en direction ouest ont permis de créer une nouvelle place publique bordée de rangées d’arbres aux abords du métro, ainsi que d’aménager deux voies cyclables. Ces nouveaux aménagements ont été inaugurés en 2013, vers la fin de notre premier mandat à la tête de l’arrondissement du Plateau-Mont-Royal.",
     "type": "vegetalisation",
     "author": "Alex Norris",
-    "before": { "image": "data/points/metro-laurier/avant.jpg", "date": "" },
+    "before": { "image": "data/points/metro-laurier/avant.jpg", "date": "2007-09" },
     "after": { "image": "data/points/metro-laurier/apres.jpg", "date": "2026-07" }
   },
   {
