@@ -64,6 +64,7 @@
     points: [],
     markers: new Map(),
     activeBorough: 'all',
+    activeTypes: new Set(),
     map: null
   };
 
@@ -95,6 +96,7 @@
       state.points = points;
       renderMarkers(points);
       populateBoroughFilter(points);
+      populateTypeSidebar(points);
       updateStats(points);
     } catch (err) {
       console.error('Impossible de charger data/points.json', err);
@@ -156,9 +158,50 @@
     });
   }
 
+  function populateTypeSidebar(points) {
+    const list = document.getElementById('type-sidebar-list');
+    const typesPresent = Object.keys(PIN_TYPES).filter((key) =>
+      points.some((p) => pinTypeOf(p) === key)
+    );
+
+    state.activeTypes = new Set(typesPresent);
+
+    typesPresent.forEach((key) => {
+      const info = PIN_TYPES[key];
+      const count = points.filter((p) => pinTypeOf(p) === key).length;
+
+      const label = document.createElement('label');
+      label.className = `type-sidebar-item type-${key}`;
+      label.innerHTML = `
+        <input type="checkbox" checked data-type="${key}">
+        <span class="type-sidebar-swatch">${info.icon('#ffffff')}</span>
+        <span class="type-sidebar-label">${info.label}</span>
+        <span class="type-sidebar-count">${count}</span>
+      `;
+      list.appendChild(label);
+    });
+
+    list.addEventListener('change', (e) => {
+      const checkbox = e.target.closest('input[data-type]');
+      if (!checkbox) return;
+      const type = checkbox.dataset.type;
+      const item = checkbox.closest('.type-sidebar-item');
+      if (checkbox.checked) {
+        state.activeTypes.add(type);
+        item.classList.remove('disabled');
+      } else {
+        state.activeTypes.delete(type);
+        item.classList.add('disabled');
+      }
+      applyFilter();
+    });
+  }
+
   function applyFilter() {
     state.markers.forEach(({ marker, data }) => {
-      const show = state.activeBorough === 'all' || data.borough === state.activeBorough;
+      const boroughMatch = state.activeBorough === 'all' || data.borough === state.activeBorough;
+      const typeMatch = state.activeTypes.has(pinTypeOf(data));
+      const show = boroughMatch && typeMatch;
       const has = state.map.hasLayer(marker);
       if (show && !has) marker.addTo(state.map);
       if (!show && has) state.map.removeLayer(marker);
@@ -178,9 +221,49 @@
     document.getElementById('detail-close').addEventListener('click', closeDetail);
     document.getElementById('detail-close-mobile').addEventListener('click', closeDetail);
     document.getElementById('overlay-scrim').addEventListener('click', closeDetail);
+
+    document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
+    document.getElementById('type-sidebar-close').addEventListener('click', closeSidebar);
+    document.getElementById('type-sidebar-scrim').addEventListener('click', closeSidebar);
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDetail();
+      if (e.key === 'Escape') {
+        closeDetail();
+        closeSidebar();
+      }
     });
+  }
+
+  function isMobileLayout() {
+    return window.matchMedia('(max-width: 760px)').matches;
+  }
+
+  function openSidebar() {
+    if (isMobileLayout()) {
+      document.getElementById('type-sidebar').classList.add('open');
+      document.getElementById('type-sidebar-scrim').classList.add('open');
+    } else {
+      document.body.classList.remove('sidebar-collapsed');
+    }
+    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', 'true');
+  }
+
+  function closeSidebar() {
+    if (isMobileLayout()) {
+      document.getElementById('type-sidebar').classList.remove('open');
+      document.getElementById('type-sidebar-scrim').classList.remove('open');
+    } else {
+      document.body.classList.add('sidebar-collapsed');
+    }
+    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleSidebar() {
+    const isOpen = isMobileLayout()
+      ? document.getElementById('type-sidebar').classList.contains('open')
+      : !document.body.classList.contains('sidebar-collapsed');
+    if (isOpen) closeSidebar();
+    else openSidebar();
   }
 
   function openDetail(id) {
@@ -309,14 +392,28 @@
 
     setPosition(50);
 
+    applyCombinedAspectRatio(root);
+  }
+
+  function applyCombinedAspectRatio(root) {
     const afterEl = root.querySelector('.ba-after');
-    function applyNaturalRatio() {
-      if (afterEl.naturalWidth && afterEl.naturalHeight) {
-        root.style.aspectRatio = `${afterEl.naturalWidth} / ${afterEl.naturalHeight}`;
-      }
+    const beforeEl = root.querySelector('.ba-before');
+
+    function update() {
+      if (!afterEl.naturalWidth || !beforeEl.naturalWidth) return;
+      const afterArea = afterEl.naturalWidth * afterEl.naturalHeight;
+      const beforeArea = beforeEl.naturalWidth * beforeEl.naturalHeight;
+      // Match the container to the smaller photo's format so both images
+      // share the same crop shape — the larger one gets cropped (via
+      // object-fit: cover) to fit, the smaller one is never touched.
+      const smaller = afterArea <= beforeArea ? afterEl : beforeEl;
+      root.style.aspectRatio = String(smaller.naturalWidth / smaller.naturalHeight);
     }
-    if (afterEl.complete) applyNaturalRatio();
-    else afterEl.addEventListener('load', applyNaturalRatio, { once: true });
+
+    [afterEl, beforeEl].forEach((img) => {
+      if (img.complete) update();
+      else img.addEventListener('load', update, { once: true });
+    });
   }
 
   function openFullscreenSlider(pt) {
@@ -332,15 +429,6 @@
 
     const sliderRoot = overlay.querySelector('.ba-slider-fs');
     buildSlider(sliderRoot, pt, { isFullscreen: true });
-
-    const afterEl = sliderRoot.querySelector('.ba-after');
-    function applyRatio() {
-      if (afterEl.naturalWidth && afterEl.naturalHeight) {
-        sliderRoot.style.aspectRatio = `${afterEl.naturalWidth} / ${afterEl.naturalHeight}`;
-      }
-    }
-    if (afterEl.complete) applyRatio();
-    else afterEl.addEventListener('load', applyRatio, { once: true });
 
     function close() {
       overlay.classList.remove('open');
