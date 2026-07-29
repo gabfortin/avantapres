@@ -20,6 +20,46 @@
     </svg>`;
   }
 
+  function schoolIconSvg(color) {
+    return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3 2 8l10 5 10-5-10-5Z" fill="${color}"/>
+      <path d="M6 10.5V15c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21 9v5.5" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  function billboardIconSvg(color) {
+    return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="4.5" width="18" height="10" rx="1.4" fill="${color}"/>
+      <path d="M12 14.5V20M8 20h8" stroke="${color}" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  function treeIconSvg(color) {
+    return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2 5 12.5h3.2L4 20h7v2h2v-2h7l-4.2-7.5H19L12 2Z" fill="${color}"/>
+    </svg>`;
+  }
+
+  const PIN_TYPES = {
+    vegetalisation: { icon: leafIconSvg, label: 'Végétalisation', emoji: '🌱' },
+    'agrandissement-parc': { icon: treeIconSvg, label: 'Agrandissement de parc', emoji: '🌳' },
+    'place-ecole': { icon: schoolIconSvg, label: 'Place-école', emoji: '🎓' },
+    'panneau-publicitaire': { icon: billboardIconSvg, label: 'Panneau publicitaire', emoji: '📋' }
+  };
+  const DEFAULT_PIN_TYPE = 'vegetalisation';
+
+  function pinTypeOf(pt) {
+    if (pt.type && !PIN_TYPES[pt.type]) {
+      console.warn(
+        `data/points.json: type "${pt.type}" inconnu pour le point "${pt.id}" ` +
+        `(valeurs valides : ${Object.keys(PIN_TYPES).join(', ')}). ` +
+        `Affiché en "${DEFAULT_PIN_TYPE}" par défaut.`
+      );
+    }
+    return PIN_TYPES[pt.type] ? pt.type : DEFAULT_PIN_TYPE;
+  }
+
   const state = {
     points: [],
     markers: new Map(),
@@ -63,11 +103,12 @@
 
   function renderMarkers(points) {
     points.forEach((pt) => {
+      const type = pinTypeOf(pt);
       const icon = L.divIcon({
         className: '',
-        html: `<div class="growth-marker">
+        html: `<div class="growth-marker type-${type}">
                  <div class="ring"></div>
-                 <div class="pin">${leafIconSvg('#ffffff')}</div>
+                 <div class="pin">${PIN_TYPES[type].icon('#ffffff')}</div>
                </div>`,
         iconSize: [34, 34],
         iconAnchor: [17, 30],
@@ -82,7 +123,7 @@
           <div class="popup-body">
             <h3>${pt.title}</h3>
             <p>${pt.borough}</p>
-            <button class="popup-btn" type="button" data-open="${pt.id}">
+            <button class="popup-btn type-${type}" type="button" data-open="${pt.id}">
               Voir l'avant / après
             </button>
           </div>
@@ -149,6 +190,11 @@
 
     const panel = document.getElementById('detail-panel');
     const scrim = document.getElementById('overlay-scrim');
+
+    const type = pinTypeOf(pt);
+    const eyebrow = document.getElementById('detail-eyebrow');
+    eyebrow.textContent = `${PIN_TYPES[type].emoji} ${PIN_TYPES[type].label}`;
+    eyebrow.className = `detail-eyebrow type-${type}`;
 
     document.getElementById('detail-title').textContent = pt.title;
     document.getElementById('detail-borough').textContent = pt.borough;

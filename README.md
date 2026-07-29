@@ -33,6 +33,7 @@ data/points/<slug>/          photos "avant" et "après" de chaque lieu
   "lng": -73.5904,
   "description": "Description courte du projet de verdissement.",
   "author": "Prénom Nom",
+  "type": "vegetalisation",
   "before": { "image": "data/points/parc-jeanne-mance/before.jpg", "date": "2018-06" },
   "after":  { "image": "data/points/parc-jeanne-mance/after.jpg",  "date": "2024-09" }
 }
@@ -41,6 +42,15 @@ data/points/<slug>/          photos "avant" et "après" de chaque lieu
 - `author` : le nom de la personne qui a pris/soumis la comparaison. Affiché
   dans le popup de la carte et dans le panneau de détail. Ce champ est
   optionnel — s'il est absent, la ligne ne s'affiche simplement pas.
+- `type` : détermine la couleur et l'icône du point sur la carte. Valeurs
+  possibles :
+  - `vegetalisation` (feuille verte) — valeur par défaut si le champ est
+    absent, pas besoin de l'ajouter aux points existants.
+  - `agrandissement-parc` (arbre vert) — agrandissement d'un parc existant.
+  - `place-ecole` (chapeau mauve) — cour d'école transformée en place
+    publique.
+  - `panneau-publicitaire` (panneau gris) — retrait d'un panneau
+    publicitaire.
 
 - `lat` / `lng` : coordonnées GPS du lieu (clic droit sur Google Maps → copier
   les coordonnées, ou utilise [OpenStreetMap](https://www.openstreetmap.org)).
