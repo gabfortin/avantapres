@@ -174,7 +174,7 @@
     "lat": 45.53175296520404, 
     "lng": -73.58699844193069,
     "description": "Ce stationnement devant le chalet du parc Laurier a été transformé en espace de détente. Un peu plus au sud, une fontaine décorative a été installée là où des voitures stationnaient auparavant.",
-    "type": "vegetalisation",
+    "type": "agrandissement-parc",
     "author": "Alex Norris",
     "before": { "image": "data/points/parc-laurier-statio/avant.png", "date": "" },
     "after": { "image": "data/points/parc-laurier-statio/apres.png", "date": "2023-02" }  
