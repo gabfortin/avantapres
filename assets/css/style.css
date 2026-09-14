@@ -202,6 +202,10 @@ a { color: inherit; }
   transition: left 0.25s ease;
 }
 
+.map-tiles-muted {
+  filter: grayscale(55%) brightness(1.06) contrast(0.92) saturate(0.8);
+}
+
 /* ---------- Type sidebar ---------- */
 
 .type-sidebar {

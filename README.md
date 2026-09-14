@@ -97,8 +97,9 @@ Aucune action GitHub (workflow) n'est nécessaire — le site est 100 % statique
 
 ## Technologies
 
-- [Leaflet](https://leafletjs.com/) + fonds de carte [CARTO](https://carto.com/basemaps)
-  pour la carte interactive (chargés via CDN, aucune clé API requise).
+- [Leaflet](https://leafletjs.com/) + fonds de carte [OpenStreetMap](https://www.openstreetmap.org/)
+  (filtre CSS pour un rendu plus sobre) pour la carte interactive (chargés via CDN,
+  aucune clé API requise).
 - Vanilla JavaScript pour le comparateur avant/après (glisser-déposer souris
   et tactile).
 - Polices [Inter](https://fonts.google.com/specimen/Inter) et
