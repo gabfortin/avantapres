@@ -51,6 +51,9 @@ data/points/<slug>/          photos "avant" et "après" de chaque lieu
     publique.
   - `panneau-publicitaire` (panneau gris) — retrait d'un panneau
     publicitaire.
+  - `espace-pieton` (silhouette bleue) — création d'un espace piéton.
+  - `apaisement-de-circulation` (chevrons orange) — mesures d'apaisement
+    de la circulation (dos d'âne, rétrécissement de chaussée, etc.).
 
 - `lat` / `lng` : coordonnées GPS du lieu (clic droit sur Google Maps → copier
   les coordonnées, ou utilise [OpenStreetMap](https://www.openstreetmap.org)).

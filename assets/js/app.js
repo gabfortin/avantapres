@@ -48,12 +48,20 @@
     </svg>`;
   }
 
+  function trafficCalmingIconSvg(color) {
+    return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 20 8 5h8l6 15" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 20c2-6 5-9 7-9s5 3 7 9" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  }
+
   const PIN_TYPES = {
     vegetalisation: { icon: leafIconSvg, label: 'Végétalisation', emoji: '🌱' },
     'agrandissement-parc': { icon: treeIconSvg, label: 'Agrandissement de parc', emoji: '🌳' },
     'place-ecole': { icon: schoolIconSvg, label: 'Place-école', emoji: '🎓' },
     'panneau-publicitaire': { icon: billboardIconSvg, label: 'Panneau publicitaire', emoji: '📋' },
-    'espace-pieton': { icon: pedestrianIconSvg, label: 'Espace piéton', emoji: '🚶' }
+    'espace-pieton': { icon: pedestrianIconSvg, label: 'Espace piéton', emoji: '🚶' },
+    'apaisement-de-circulation': { icon: trafficCalmingIconSvg, label: 'Apaisement de la circulation', emoji: '🚧' }
   };
   const DEFAULT_PIN_TYPE = 'vegetalisation';
 

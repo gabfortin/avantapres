@@ -274,5 +274,29 @@
     "author": "Gabriel Fortin",
     "before": { "image": "data/points/andree-lachapelle/avant.jpg", "date": "2019-05" },
     "after": { "image": "data/points/andree-lachapelle/apres.jpg", "date": "2025-07" }
+  },
+  {
+    "id": "piste-fullum-sud",
+    "title": "Piste cyclable Fullum (sud)",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.5359332495938, 
+    "lng": -73.56684560544119,
+    "description": "Piste cyclable sur la rue Fullum. Implantée en août 2026, elle permet de sécuriser les déplacements actifs et de réduire la vitesse des véhicules en réduisant la largeur de la chaussée.",
+    "type": "apaisement-de-circulation",
+    "author": "Gabriel Fortin",
+    "before": { "image": "data/points/piste-fullum-sud/avant.png", "date": "2026-07" },
+    "after": { "image": "data/points/piste-fullum-sud/apres.png", "date": "2026-09" }
+  },
+  {
+    "id": "pointerolles",
+    "title": "Place école des pointerolles",
+    "borough": "Plateau-Mont-Royal",
+    "lat": 45.52284030003307, 
+    "lng": -73.58920871827657,
+    "description": "La nouvelle place des Pointerolles, rue Coloniale, près de la rue Elmire, aux abords de l’école Saint-Enfant-Jésus. Nous sommes bien fiers de cette quatrième place-école sur le Plateau-Mont-Royal, créée cette année pour offrir un espace de détente aux élèves et aux résidents du secteur, tout en sécurisant les abords de cette école primaire du quartier.",
+    "type": "place-ecole",
+    "author": "Alex Norris",
+    "before": { "image": "data/points/pointerolles/avant.jpg", "date": "2026-05" },
+    "after": { "image": "data/points/pointerolles/apres.jpg", "date": "2026-08" }
   }
 ]
