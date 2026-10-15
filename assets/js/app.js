@@ -92,11 +92,14 @@
 
   function initMap() {
     state.map = L.map('map', {
-      zoomControl: true,
+      zoomControl: false,
       minZoom: 10,
       maxZoom: 18,
-      attributionControl: true
+      attributionControl: false
     }).setView([45.5195, -73.5815], 15);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(state.map);
+    L.control.attribution({ position: 'bottomright' }).addTo(state.map);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -250,7 +253,46 @@
     document.getElementById('stat-boroughs').textContent = boroughs.size;
   }
 
+  const MISSION_BANNER_KEY = 'avantapres:mission-banner-dismissed';
+
+  function wireMissionBanner() {
+    const banner = document.getElementById('mission-banner');
+    if (!banner) return;
+
+    try {
+      if (localStorage.getItem(MISSION_BANNER_KEY)) {
+        banner.classList.add('hidden');
+        return;
+      }
+    } catch (err) { /* localStorage indisponible (navigation privée, etc.) */ }
+
+    document.getElementById('mission-banner-close').addEventListener('click', () => {
+      banner.classList.add('hidden');
+      try { localStorage.setItem(MISSION_BANNER_KEY, '1'); } catch (err) { /* ignore */ }
+    });
+  }
+
+  function wireAboutModal() {
+    const overlay = document.getElementById('about-overlay');
+    const openBtn = document.getElementById('about-btn');
+    const closeBtn = document.getElementById('about-modal-close');
+    if (!overlay || !openBtn) return;
+
+    function open() { overlay.classList.add('open'); }
+    function close() { overlay.classList.remove('open'); }
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+    });
+  }
+
   function wireStaticUI() {
+    wireMissionBanner();
+    wireAboutModal();
+
     const toast = document.getElementById('intro-toast');
     setTimeout(() => toast && toast.classList.add('hidden'), 7000);
 
