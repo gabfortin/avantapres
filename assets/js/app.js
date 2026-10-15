@@ -107,16 +107,35 @@
   }
 
   async function loadPoints() {
+    const status = document.getElementById('map-status');
+    const statusText = document.getElementById('map-status-text');
+
     try {
       const res = await fetch('data/points.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const points = await res.json();
       state.points = points;
       renderMarkers(points);
       populateBoroughFilter(points);
       populateTypeSidebar(points);
       updateStats(points);
+      status.classList.add('hidden');
     } catch (err) {
       console.error('Impossible de charger data/points.json', err);
+      status.classList.remove('hidden');
+      status.classList.add('error');
+      statusText.textContent = 'Impossible de charger les lieux. ';
+      const retry = document.createElement('button');
+      retry.className = 'map-status-retry';
+      retry.type = 'button';
+      retry.textContent = 'Réessayer';
+      retry.addEventListener('click', () => {
+        status.classList.remove('error');
+        statusText.textContent = 'Chargement des lieux…';
+        retry.remove();
+        loadPoints();
+      });
+      statusText.after(retry);
     }
   }
 
@@ -138,7 +157,7 @@
 
       const popupHtml = `
         <div class="popup-card">
-          <img class="popup-thumb" src="${pt.after.image}" alt="${pt.title}">
+          <img class="popup-thumb" src="${pt.after.image}" alt="${pt.title}" loading="lazy" decoding="async">
           <div class="popup-body">
             <h3>${pt.title}</h3>
             <p>${pt.borough}</p>
@@ -326,10 +345,12 @@
   }
 
   function buildSlider(root, pt, opts = {}) {
+    if (root._sliderAbort) root._sliderAbort.abort();
+
     const showFullscreenBtn = !opts.isFullscreen;
     root.innerHTML = `
-      <img class="ba-img ba-after" src="${pt.after.image}" alt="Après — ${pt.title}">
-      <img class="ba-img ba-before" src="${pt.before.image}" alt="Avant — ${pt.title}">
+      <img class="ba-img ba-after" src="${pt.after.image}" alt="Après — ${pt.title}" decoding="async">
+      <img class="ba-img ba-before" src="${pt.before.image}" alt="Avant — ${pt.title}" decoding="async">
       <span class="ba-badge ba-badge-before">Avant · ${formatDate(pt.before.date)}</span>
       <span class="ba-badge ba-badge-after">Après · ${formatDate(pt.after.date)}</span>
       <div class="ba-handle">
@@ -348,63 +369,89 @@
     const handle = root.querySelector('.ba-handle');
     const badgeBefore = root.querySelector('.ba-badge-before');
     const badgeAfter = root.querySelector('.ba-badge-after');
-    let dragging = false;
 
-    function setPosition(pct) {
-      const clamped = Math.min(100, Math.max(0, pct));
-      before.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`;
-      handle.style.left = `${clamped}%`;
+    let rect = null;
+    let brWidth = 0;
+    let arWidth = 0;
+    let pendingPct = null;
+    let rafId = null;
+    let currentPct = 50;
 
-      const containerWidth = root.getBoundingClientRect().width;
-      const handleX = containerWidth * clamped / 100;
-      const rootLeft = root.getBoundingClientRect().left;
-
-      const br = badgeBefore.getBoundingClientRect();
-      const ar = badgeAfter.getBoundingClientRect();
-      badgeBefore.style.opacity = handleX < br.right - rootLeft ? '0' : '1';
-      badgeAfter.style.opacity = handleX > ar.left - rootLeft ? '0' : '1';
+    function measure() {
+      rect = root.getBoundingClientRect();
+      brWidth = badgeBefore.getBoundingClientRect().width;
+      arWidth = badgeAfter.getBoundingClientRect().width;
     }
 
-    function pctFromEvent(clientX) {
-      const rect = root.getBoundingClientRect();
+    function applyPosition(pct) {
+      currentPct = Math.min(100, Math.max(0, pct));
+      before.style.clipPath = `inset(0 ${100 - currentPct}% 0 0)`;
+      handle.style.left = `${currentPct}%`;
+
+      const handleX = rect.width * currentPct / 100;
+      badgeBefore.style.opacity = handleX < brWidth + 12 ? '0' : '1';
+      badgeAfter.style.opacity = handleX > rect.width - arWidth - 12 ? '0' : '1';
+    }
+
+    function setPosition(pct) {
+      measure();
+      applyPosition(pct);
+    }
+
+    function onResize() {
+      measure();
+      applyPosition(currentPct);
+    }
+
+    function schedulePosition(pct) {
+      pendingPct = pct;
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        if (pendingPct !== null) applyPosition(pendingPct);
+      });
+    }
+
+    function pctFromClientX(clientX) {
       return ((clientX - rect.left) / rect.width) * 100;
     }
 
-    function onMove(e) {
-      if (!dragging) return;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      setPosition(pctFromEvent(clientX));
-    }
-
-    function startDrag(e) {
-      dragging = true;
-      if (e.type === 'mousedown') e.preventDefault();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      setPosition(pctFromEvent(clientX));
-    }
-
-    function stopDrag() { dragging = false; }
-
-    root.addEventListener('mousedown', startDrag);
-    root.addEventListener('touchstart', startDrag, { passive: true });
-
     const ac = new AbortController();
     const { signal } = ac;
-    window.addEventListener('mousemove', onMove, { signal });
-    window.addEventListener('touchmove', onMove, { passive: true, signal });
-    window.addEventListener('mouseup', stopDrag, { signal });
-    window.addEventListener('touchend', stopDrag, { signal });
+    root._sliderAbort = ac;
 
-    const observer = new MutationObserver(() => {
-      if (!document.body.contains(root)) { ac.abort(); observer.disconnect(); }
+    function onPointerDown(e) {
+      root.setPointerCapture(e.pointerId);
+      measure();
+      applyPosition(pctFromClientX(e.clientX));
+      root.addEventListener('pointermove', onPointerMove, { signal });
+      root.addEventListener('pointerup', onPointerUp, { signal });
+      root.addEventListener('pointercancel', onPointerUp, { signal });
+    }
+
+    function onPointerMove(e) {
+      schedulePosition(pctFromClientX(e.clientX));
+    }
+
+    function onPointerUp(e) {
+      root.releasePointerCapture(e.pointerId);
+      root.removeEventListener('pointermove', onPointerMove);
+      root.removeEventListener('pointerup', onPointerUp);
+      root.removeEventListener('pointercancel', onPointerUp);
+    }
+
+    root.addEventListener('pointerdown', onPointerDown, { signal });
+    window.addEventListener('resize', onResize, { signal });
+
+    signal.addEventListener('abort', () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
     });
-    observer.observe(document.body, { childList: true, subtree: true });
 
     if (showFullscreenBtn) {
       root.querySelector('.ba-fullscreen-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         openFullscreenSlider(pt);
-      });
+      }, { signal });
     }
 
     setPosition(50);
@@ -487,6 +534,7 @@
     buildSlider(sliderRoot, pt, { isFullscreen: true });
 
     function close() {
+      if (sliderRoot._sliderAbort) sliderRoot._sliderAbort.abort();
       overlay.classList.remove('open');
       overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
       document.removeEventListener('keydown', onKey);
