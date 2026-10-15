@@ -4,7 +4,7 @@
 
 Créé et maintenu par Gabriel Fortin ([gabfortin.com](https://gabfortin.com)), en collaboration avec Projet Montréal.
 
-Site statique (HTML/CSS/JS, carte Leaflet + fonds OpenStreetMap), hébergé à https://avantapres.gabfortin.com/.
+Site statique (HTML/CSS/JS, carte Leaflet + fonds OpenStreetMap), hébergé à https://avant-apres.ca/.
 
 ## Attribution
 

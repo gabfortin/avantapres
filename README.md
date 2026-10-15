@@ -94,11 +94,16 @@ python3 -m http.server 8000
 Aucune action GitHub (workflow) n'est nécessaire — le site est 100 % statique.
 
 > Les balises `og:image` / `og:url` / `twitter:image` / `canonical` dans
-> `index.html` pointent vers le domaine personnalisé
-> `https://avantapres.gabfortin.com/` (voir le fichier `CNAME`). Si ce domaine
-> change un jour, mets à jour ces URLs ainsi que `sitemap.xml`, `robots.txt`
-> et le JSON-LD du `<head>` pour que l'aperçu de partage et l'attribution
-> restent corrects.
+> `index.html` pointent vers le domaine personnalisé `https://avant-apres.ca/`
+> (voir le fichier `CNAME`). Si ce domaine change un jour, mets à jour ces
+> URLs ainsi que `sitemap.xml`, `robots.txt`, `llms.txt` et le JSON-LD du
+> `<head>` pour que l'aperçu de partage et l'attribution restent corrects.
+>
+> Le domaine `avant-apres.ca` doit aussi être configuré chez le registraire
+> (GoDaddy) pour pointer vers GitHub Pages : un enregistrement `ALIAS`/`ANAME`
+> (ou les 4 IP `A` de GitHub Pages) sur l'apex, et idéalement un `CNAME` sur
+> `www` vers `<utilisateur>.github.io`. Voir la
+> [doc GitHub sur les domaines personnalisés](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).
 
 ## Technologies
 
