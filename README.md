@@ -62,6 +62,16 @@ data/points/<slug>/          photos "avant" et "après" de chaque lieu
 - Les images peuvent être `.jpg`, `.png`, `.webp` ou `.svg`. Pour un bon
   résultat visuel dans le comparateur, utilise deux photos prises au même
   angle/cadrage.
+- Compresse tes photos avant de les déposer : une photo de téléphone
+  non compressée peut peser plusieurs dizaines de Mo (surtout en `.png` ou
+  en HDR), ce qui ralentit énormément le chargement. Vise des `.jpg` de
+  ~1500 px de large maximum et qualité ~80 — largement suffisant à l'écran
+  et quelques centaines de Ko au lieu de dizaines de Mo.
+4. Relance `python3 scripts/generate-lqip.py` (nécessite macOS) pour
+   régénérer `data/image-lqip.json`, la miniature floutée utilisée comme
+   placeholder le temps que chaque photo haute résolution charge en
+   arrière-plan. Sans cette étape, le nouveau point fonctionne quand même —
+   il n'a simplement pas de chargement progressif.
 
 Aucune compilation n'est nécessaire : recharge simplement la page, le point
 apparaît sur la carte.

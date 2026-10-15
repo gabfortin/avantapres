@@ -81,8 +81,34 @@
     markers: new Map(),
     activeBorough: 'all',
     activeTypes: new Set(),
-    map: null
+    map: null,
+    lqip: {}
   };
+
+  function lqipFor(src) {
+    return state.lqip[src];
+  }
+
+  function progressiveImgAttrs(cls, src, alt) {
+    const meta = lqipFor(src);
+    const initial = meta ? meta.src : src;
+    return `class="${cls} progressive-img" src="${initial}" data-full-src="${src}" alt="${alt}" decoding="async"`;
+  }
+
+  function hydrateProgressiveImages(root) {
+    root.querySelectorAll('.progressive-img[data-full-src]').forEach((img) => {
+      if (img.dataset.hydrating) return;
+      img.dataset.hydrating = '1';
+      const full = img.dataset.fullSrc;
+      const loader = new Image();
+      loader.onload = () => {
+        img.src = full;
+        img.classList.add('loaded');
+      };
+      loader.onerror = () => img.classList.add('loaded');
+      loader.src = full;
+    });
+  }
 
   function init() {
     initMap();
@@ -114,8 +140,14 @@
     const statusText = document.getElementById('map-status-text');
 
     try {
-      const res = await fetch('data/points.json', { cache: 'no-store' });
+      const [res, lqipRes] = await Promise.all([
+        fetch('data/points.json', { cache: 'no-store' }),
+        fetch('data/image-lqip.json', { cache: 'no-store' }).catch(() => null)
+      ]);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (lqipRes && lqipRes.ok) {
+        try { state.lqip = await lqipRes.json(); } catch (err) { /* placeholders optional */ }
+      }
       const points = await res.json();
       state.points = points;
       renderMarkers(points);
@@ -160,7 +192,7 @@
 
       const popupHtml = `
         <div class="popup-card">
-          <img class="popup-thumb" src="${pt.after.image}" alt="${pt.title}" loading="lazy" decoding="async">
+          <img ${progressiveImgAttrs('popup-thumb', pt.after.image, pt.title)}>
           <div class="popup-body">
             <h3>${pt.title}</h3>
             <p>${pt.borough}</p>
@@ -173,8 +205,10 @@
       marker.bindPopup(popupHtml, { closeButton: false, offset: [0, -4] });
 
       marker.on('popupopen', (e) => {
-        const btn = e.popup.getElement().querySelector('[data-open]');
+        const el = e.popup.getElement();
+        const btn = el.querySelector('[data-open]');
         if (btn) btn.addEventListener('click', () => openDetail(pt.id));
+        hydrateProgressiveImages(el);
       });
 
       state.markers.set(pt.id, { marker, data: pt });
@@ -391,8 +425,8 @@
 
     const showFullscreenBtn = !opts.isFullscreen;
     root.innerHTML = `
-      <img class="ba-img ba-after" src="${pt.after.image}" alt="Après — ${pt.title}" decoding="async">
-      <img class="ba-img ba-before" src="${pt.before.image}" alt="Avant — ${pt.title}" decoding="async">
+      <img ${progressiveImgAttrs('ba-img ba-after', pt.after.image, `Après — ${pt.title}`)}>
+      <img ${progressiveImgAttrs('ba-img ba-before', pt.before.image, `Avant — ${pt.title}`)}>
       <span class="ba-badge ba-badge-before">Avant · ${formatDate(pt.before.date)}</span>
       <span class="ba-badge ba-badge-after">Après · ${formatDate(pt.after.date)}</span>
       <div class="ba-handle">
@@ -497,45 +531,58 @@
     }
 
     setPosition(50);
+    hydrateProgressiveImages(root);
 
-    if (opts.isFullscreen) applyFullscreenFit(root);
-    else applyCombinedAspectRatio(root);
+    if (opts.isFullscreen) applyFullscreenFit(root, pt);
+    else applyCombinedAspectRatio(root, pt);
+  }
+
+  // Match the container to the smaller photo's format so both images share
+  // the same crop shape — the larger one gets cropped (via object-fit:
+  // cover) to fit, the smaller one is never touched.
+  function smallerDimsRatio(afterDim, beforeDim) {
+    if (!afterDim || !beforeDim) return null;
+    const afterArea = afterDim.w * afterDim.h;
+    const beforeArea = beforeDim.w * beforeDim.h;
+    const smaller = afterArea <= beforeArea ? afterDim : beforeDim;
+    return smaller.w / smaller.h;
   }
 
   function smallerImageRatio(afterEl, beforeEl) {
     if (!afterEl.naturalWidth || !beforeEl.naturalWidth) return null;
-    const afterArea = afterEl.naturalWidth * afterEl.naturalHeight;
-    const beforeArea = beforeEl.naturalWidth * beforeEl.naturalHeight;
-    // Match the container to the smaller photo's format so both images
-    // share the same crop shape — the larger one gets cropped (via
-    // object-fit: cover) to fit, the smaller one is never touched.
-    const smaller = afterArea <= beforeArea ? afterEl : beforeEl;
-    return smaller.naturalWidth / smaller.naturalHeight;
+    return smallerDimsRatio(
+      { w: afterEl.naturalWidth, h: afterEl.naturalHeight },
+      { w: beforeEl.naturalWidth, h: beforeEl.naturalHeight }
+    );
   }
 
-  function applyCombinedAspectRatio(root) {
+  // Resolves the comparison aspect ratio instantly from the LQIP manifest
+  // (which already knows each photo's real dimensions) when available,
+  // falling back to waiting on the actual <img> elements otherwise.
+  function resolveComparisonRatio(root, pt, cb) {
+    const ratio = smallerDimsRatio(lqipFor(pt.after.image), lqipFor(pt.before.image));
+    if (ratio) { cb(ratio); return; }
+
     const afterEl = root.querySelector('.ba-after');
     const beforeEl = root.querySelector('.ba-before');
-
     function update() {
-      const ratio = smallerImageRatio(afterEl, beforeEl);
-      if (ratio) root.style.aspectRatio = String(ratio);
+      const r = smallerImageRatio(afterEl, beforeEl);
+      if (r) cb(r);
     }
-
     [afterEl, beforeEl].forEach((img) => {
       if (img.complete) update();
       else img.addEventListener('load', update, { once: true });
     });
   }
 
-  function applyFullscreenFit(root) {
-    const afterEl = root.querySelector('.ba-after');
-    const beforeEl = root.querySelector('.ba-before');
+  function applyCombinedAspectRatio(root, pt) {
+    resolveComparisonRatio(root, pt, (ratio) => {
+      root.style.aspectRatio = String(ratio);
+    });
+  }
 
-    function update() {
-      const ratio = smallerImageRatio(afterEl, beforeEl);
-      if (!ratio) return;
-
+  function applyFullscreenFit(root, pt) {
+    resolveComparisonRatio(root, pt, (ratio) => {
       const isMobile = window.innerWidth <= 760;
       const maxWidth = isMobile
         ? window.innerWidth * 0.96
@@ -553,11 +600,6 @@
 
       root.style.width = `${Math.round(width)}px`;
       root.style.height = `${Math.round(height)}px`;
-    }
-
-    [afterEl, beforeEl].forEach((img) => {
-      if (img.complete) update();
-      else img.addEventListener('load', update, { once: true });
     });
   }
 

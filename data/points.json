@@ -116,8 +116,8 @@
     "description": "Dans l'image en haut, l'ancienne prolongation de la rue Christophe-Colomb, à l'intérieur du parc Sir-Wilfred-Laurier, qui menait auparavant à un terrain de stationnement devant le chalet de parc que nous avons également désasphalté et verdi. En bas, l'entrée du parc tel qu'il est qu'aménagé aujourd'hui. Ce projet fut le premier de ce genre qu'on a implanté dans l'arrondissement.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/parc-laurier/avant.png", "date": "2009-04" },
-    "after": { "image": "data/points/parc-laurier/apres.png", "date": "2023-02" }
+    "before": { "image": "data/points/parc-laurier/avant.jpg", "date": "2009-04" },
+    "after": { "image": "data/points/parc-laurier/apres.jpg", "date": "2023-02" }
   },
   {
     "id": "parc-lahaie",
@@ -128,8 +128,8 @@
     "description": "Le désasphaltage et réaménagement de la rue Saint-Dominique devant l'église Saint-Enfant-Jésus a permis d'installer une fontaine, une promenade piétonnière, des bancs et des plantations là où il y avait du stationnement et ainsi d'agrandir le parc Lahaie dans le Mile End.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/parc-lahaie/avant.png", "date": "2007" },
-    "after": { "image": "data/points/parc-lahaie/apres.png", "date": "2023-02" }
+    "before": { "image": "data/points/parc-lahaie/avant.jpg", "date": "2007" },
+    "after": { "image": "data/points/parc-lahaie/apres.jpg", "date": "2023-02" }
   },
   {
     "id": "parc-baldwin",
@@ -140,8 +140,8 @@
     "description": "La rue Marie-Anne coupait auparavant le parc Baldwin en deux, jusqu'à ce qu'on la désasphalte pour l'intégrer à ce parc dans l'est du Plateau.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/parc-baldwin/avant.png", "date": "" },
-    "after": { "image": "data/points/parc-baldwin/apres.png", "date": "2013" }
+    "before": { "image": "data/points/parc-baldwin/avant.jpg", "date": "" },
+    "after": { "image": "data/points/parc-baldwin/apres.jpg", "date": "2013" }
   },
   {
     "id": "parc-compagnons",
@@ -152,8 +152,8 @@
     "description": "Ce stationnement dans le parc des Compagnons-de-Saint-Laurent a récemment été transformé en aire de jeux, jeux d'eau et espace gazonné.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/parc-compagnons/avant.png", "date": "" },
-    "after": { "image": "data/points/parc-compagnons/apres.png", "date": "2023-02" }
+    "before": { "image": "data/points/parc-compagnons/avant.jpg", "date": "" },
+    "after": { "image": "data/points/parc-compagnons/apres.jpg", "date": "2023-02" }
   },
   {
     "id": "terrasse-mercure",
@@ -164,8 +164,8 @@
     "description": "La rue Terrasse-Mercure, située au sud du parc Baldwin, a été transformée en allée piétonnière.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/terrasse-mercure/avant.png", "date": "" },
-    "after": { "image": "data/points/terrasse-mercure/apres.png", "date": "2023-02" }
+    "before": { "image": "data/points/terrasse-mercure/avant.jpg", "date": "" },
+    "after": { "image": "data/points/terrasse-mercure/apres.jpg", "date": "2023-02" }
   },
   {
     "id": "parc-laurier-statio",
@@ -176,8 +176,8 @@
     "description": "Ce stationnement devant le chalet du parc Laurier a été transformé en espace de détente. Un peu plus au sud, une fontaine décorative a été installée là où des voitures stationnaient auparavant.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/parc-laurier-statio/avant.png", "date": "" },
-    "after": { "image": "data/points/parc-laurier-statio/apres.png", "date": "2023-02" }  
+    "before": { "image": "data/points/parc-laurier-statio/avant.jpg", "date": "" },
+    "after": { "image": "data/points/parc-laurier-statio/apres.jpg", "date": "2023-02" }  
   },
   {
     "id": "bretelle-clark",
@@ -188,8 +188,8 @@
     "description": "Cette bretelle de style autoroutier qui menait de l'avenue Van Horne à la rue Clark a été supprimée et verdie, créant un lien apaisé et sécuritaire entre les parcs Lhasa-de-Sela et Sans Nom.",
     "type": "vegetalisation",
     "author": "Alex Norris",
-    "before": { "image": "data/points/bretelle-clark/avant.png", "date": "" },
-    "after": { "image": "data/points/bretelle-clark/apres.png", "date": "2023-02" }
+    "before": { "image": "data/points/bretelle-clark/avant.jpg", "date": "" },
+    "after": { "image": "data/points/bretelle-clark/apres.jpg", "date": "2023-02" }
   },
   {
     "id": "rue-emile-duploye",
@@ -200,8 +200,8 @@
     "description": "La rue Émile-Duployé a récemment été piétonnisée là où elle coupait le parc La Fontaine en deux. Cela s'ajoute à la rue Calixa-Lavallée, dont la partie nord a été transformée en aire de détente.",
     "type": "agrandissement-parc",
     "author": "Alex Norris",
-    "before": { "image": "data/points/rue-emile-duploye/avant.png", "date": "2021-06" },
-    "after": { "image": "data/points/rue-emile-duploye/apres.png", "date": "2023-02" } 
+    "before": { "image": "data/points/rue-emile-duploye/avant.jpg", "date": "2021-06" },
+    "after": { "image": "data/points/rue-emile-duploye/apres.jpg", "date": "2023-02" } 
   },
   {
     "id": "metro-laurier",
@@ -284,8 +284,8 @@
     "description": "Piste cyclable sur la rue Fullum. Implantée en août 2026, elle permet de sécuriser les déplacements actifs et de réduire la vitesse des véhicules en réduisant la largeur de la chaussée.",
     "type": "apaisement-de-circulation",
     "author": "Gabriel Fortin",
-    "before": { "image": "data/points/piste-fullum-sud/avant.png", "date": "2026-07" },
-    "after": { "image": "data/points/piste-fullum-sud/apres.png", "date": "2026-09" }
+    "before": { "image": "data/points/piste-fullum-sud/avant.jpg", "date": "2026-07" },
+    "after": { "image": "data/points/piste-fullum-sud/apres.jpg", "date": "2026-09" }
   },
   {
     "id": "pointerolles",
@@ -296,7 +296,7 @@
     "description": "La nouvelle place des Pointerolles, rue Coloniale, près de la rue Elmire, aux abords de l’école Saint-Enfant-Jésus. Nous sommes bien fiers de cette quatrième place-école sur le Plateau-Mont-Royal, créée cette année pour offrir un espace de détente aux élèves et aux résidents du secteur, tout en sécurisant les abords de cette école primaire du quartier.",
     "type": "place-ecole",
     "author": "Alex Norris",
-    "before": { "image": "data/points/pointerolles/avant.jpg", "date": "2026-05" },
+    "before": { "image": "data/points/pointerolles/avant.jpeg", "date": "2026-05" },
     "after": { "image": "data/points/pointerolles/apres.jpg", "date": "2026-08" }
   }
 ]

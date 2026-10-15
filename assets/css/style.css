@@ -621,6 +621,19 @@ a { color: inherit; }
   display: block;
 }
 
+/* Progressive image loading: a tiny blurred placeholder swaps for the
+   full-resolution photo once it's fetched, without any layout shift. */
+.progressive-img {
+  filter: blur(16px);
+  transform: scale(1.08);
+  transition: filter 0.45s var(--ease), transform 0.45s var(--ease);
+}
+
+.progressive-img.loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
+
 .popup-body { padding: 12px 14px 14px; }
 
 .popup-body h3 {
