@@ -147,7 +147,8 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .brand-mark {
@@ -167,12 +168,15 @@ a { color: inherit; }
 
 .brand-mark svg { width: 24px; height: 24px; }
 
-.brand-text { line-height: 1.15; }
+.brand-text { line-height: 1.15; min-width: 0; }
 
 .brand-word {
   font-weight: 700;
   font-size: 1.08rem;
   letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .brand-word span { color: var(--brand-dark); }
@@ -1028,7 +1032,9 @@ a { color: inherit; }
 
 @media (max-width: 760px) {
   .credits-label { display: none; }
-  .credits-badge { padding: 6px; }
+  /* Sits above the intro toast (bottom:18px, up to two lines tall) so the
+     two floating elements never overlap in the bottom-left corner. */
+  .credits-badge { padding: 6px; bottom: 82px; }
 }
 
 /* ---------- Detail panel ---------- */
@@ -1350,17 +1356,31 @@ a { color: inherit; }
 .detail-close-mobile-wrap { display: none; }
 
 @media (max-width: 760px) {
-  .site-header { gap: 8px; padding: 0 12px; }
+  /* Too many controls for one row at phone widths: wrap into two rows
+     inside the same floating header card — branding/actions on top,
+     the borough filter full-width underneath. */
+  :root { --gap: 10px; --header-h: 104px; }
+
+  .site-header {
+    height: auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    row-gap: 10px;
+    gap: 6px;
+    padding: 12px 10px;
+  }
+
   .brand-sub { display: none; }
   .header-stats { display: none; }
-  .borough-filter { min-width: 0; flex-shrink: 1; }
+  .header-spacer { flex: 1 1 auto; }
+
+  .borough-filter { order: 10; flex: 1 1 100%; min-width: 0; }
   .borough-filter select {
-    padding: 8px 26px 8px 10px;
-    font-size: 0.76rem;
-    max-width: 34vw;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    padding: 9px 30px 9px 12px;
+    font-size: 0.82rem;
   }
 
   .sidebar-toggle {
@@ -1371,9 +1391,10 @@ a { color: inherit; }
 
   .brand-mark { width: 36px; height: 36px; }
   .brand-mark svg { width: 20px; height: 20px; }
-  .brand-word { font-size: 0.95rem; }
+  .brand-word { font-size: 0.95rem; max-width: 36vw; }
 
-  :root { --gap: 10px; }
+  .about-btn { width: 28px; height: 28px; }
+  .about-btn svg { width: 14px; height: 14px; }
 
   .type-sidebar {
     width: min(80vw, 300px);
