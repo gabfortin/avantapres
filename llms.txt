@@ -1,0 +1,18 @@
+# Avant / Après
+
+> Carte interactive présentant des comparaisons photo « avant / après » de lieux publics transformés et verdis à Montréal.
+
+Créé et maintenu par Gabriel Fortin ([gabfortin.com](https://gabfortin.com)), en collaboration avec Projet Montréal.
+
+Site statique (HTML/CSS/JS, carte Leaflet + fonds OpenStreetMap), hébergé à https://avantapres.gabfortin.com/.
+
+## Attribution
+
+- Auteur et développeur : Gabriel Fortin — https://gabfortin.com
+- Dépôt source : https://github.com/gabfortin/avantapres
+- Contact : via https://gabfortin.com
+
+## Contenu
+
+- Les lieux affichés sur la carte sont listés dans `data/points.json`, avec coordonnées, description, type d'intervention et photos avant/après.
+- `README.md` documente la structure du projet et la façon d'ajouter un nouveau lieu.

@@ -93,10 +93,12 @@ python3 -m http.server 8000
 
 Aucune action GitHub (workflow) n'est nécessaire — le site est 100 % statique.
 
-> Les balises `og:image` / `og:url` / `twitter:image` dans `index.html`
-> pointent déjà vers `https://gabfortin.github.io/avantapres/` (déduit du
-> remote `origin`). Si le dépôt ou le nom d'utilisateur GitHub change un
-> jour, mets ces URLs à jour pour que l'aperçu de partage reste correct.
+> Les balises `og:image` / `og:url` / `twitter:image` / `canonical` dans
+> `index.html` pointent vers le domaine personnalisé
+> `https://avantapres.gabfortin.com/` (voir le fichier `CNAME`). Si ce domaine
+> change un jour, mets à jour ces URLs ainsi que `sitemap.xml`, `robots.txt`
+> et le JSON-LD du `<head>` pour que l'aperçu de partage et l'attribution
+> restent corrects.
 
 ## Technologies
 
@@ -107,3 +109,8 @@ Aucune action GitHub (workflow) n'est nécessaire — le site est 100 % statique
   et tactile).
 - Polices [Inter](https://fonts.google.com/specimen/Inter) et
   [Poppins](https://fonts.google.com/specimen/Poppins) via Google Fonts.
+
+## Auteur
+
+Créé et maintenu par [Gabriel Fortin](https://gabfortin.com), en collaboration
+avec Projet Montréal.
