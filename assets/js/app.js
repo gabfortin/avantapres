@@ -13,6 +13,10 @@
     return `${MONTHS_FR[m - 1]} ${y}`;
   }
 
+  function clamp01(n) {
+    return Math.min(1, Math.max(0, n));
+  }
+
   function leafIconSvg(color) {
     return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 4C10 4 4 10 4 18c0 1.1.9 2 2 2 8 0 14-6 14-16Z" fill="${color}"/>
@@ -175,6 +179,13 @@
   }
 
   function renderMarkers(points) {
+    // Leaflet's popup pane lives inside .leaflet-map-pane, which has its own
+    // position+z-index+transform and therefore its own stacking context —
+    // no z-index on the popup can ever escape above the floating header,
+    // which lives outside that context. Pan the map instead, so a popup
+    // never opens underneath the header/sidebar in the first place.
+    const headerClearance = Math.ceil(document.querySelector('.site-header').getBoundingClientRect().bottom) + 16;
+
     points.forEach((pt) => {
       const type = pinTypeOf(pt);
       const icon = L.divIcon({
@@ -202,7 +213,12 @@
           </div>
         </div>`;
 
-      marker.bindPopup(popupHtml, { closeButton: false, offset: [0, -4] });
+      marker.bindPopup(popupHtml, {
+        closeButton: false,
+        offset: [0, -4],
+        autoPanPaddingTopLeft: L.point(20, headerClearance),
+        autoPanPaddingBottomRight: L.point(20, 20)
+      });
 
       marker.on('popupopen', (e) => {
         const el = e.popup.getElement();
@@ -420,6 +436,8 @@
     document.getElementById('overlay-scrim').classList.remove('open');
   }
 
+  const BADGE_FADE_RANGE = 40;
+
   function buildSlider(root, pt, opts = {}) {
     if (root._sliderAbort) root._sliderAbort.abort();
 
@@ -464,9 +482,13 @@
       before.style.clipPath = `inset(0 ${100 - currentPct}% 0 0)`;
       handle.style.left = `${currentPct}%`;
 
+      // Fade each date badge out over BADGE_FADE_RANGE px as the handle
+      // approaches/covers it, instead of snapping to hidden at a fixed point.
       const handleX = rect.width * currentPct / 100;
-      badgeBefore.style.opacity = handleX < brWidth + 12 ? '0' : '1';
-      badgeAfter.style.opacity = handleX > rect.width - arWidth - 12 ? '0' : '1';
+      const beforeSafe = brWidth + 12;
+      const afterSafe = rect.width - arWidth - 12;
+      badgeBefore.style.opacity = String(clamp01((handleX - beforeSafe) / BADGE_FADE_RANGE));
+      badgeAfter.style.opacity = String(clamp01((afterSafe - handleX) / BADGE_FADE_RANGE));
     }
 
     function setPosition(pct) {

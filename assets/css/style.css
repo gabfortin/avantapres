@@ -1208,8 +1208,8 @@ a { color: inherit; }
   text-transform: uppercase;
 }
 
-.ba-badge-before { left: 12px; background: rgba(120, 84, 43, 0.75); transition: opacity 0.15s ease; }
-.ba-badge-after { right: 12px; background: rgba(15, 122, 55, 0.82); transition: opacity 0.15s ease; }
+.ba-badge-before { left: 12px; background: rgba(120, 84, 43, 0.75); }
+.ba-badge-after { right: 12px; background: rgba(15, 122, 55, 0.82); }
 
 .ba-handle {
   position: absolute;
