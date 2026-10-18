@@ -187,6 +187,14 @@ a { color: inherit; }
   font-weight: 500;
 }
 
+.brand-pm {
+  color: var(--brand-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand-pm:hover { text-decoration: underline; }
+
 .brand-sub-mobile {
   display: none;
   font-size: 0.68rem;
