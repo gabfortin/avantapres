@@ -444,6 +444,7 @@
     const showFullscreenBtn = !opts.isFullscreen;
     root.innerHTML = `
       <img ${progressiveImgAttrs('ba-img ba-after', pt.after.image, `Après — ${pt.title}`)}>
+      <img class="ba-watermark" src="assets/img/pm.png" alt="" aria-hidden="true">
       <img ${progressiveImgAttrs('ba-img ba-before', pt.before.image, `Avant — ${pt.title}`)}>
       <span class="ba-badge ba-badge-before">Avant · ${formatDate(pt.before.date)}</span>
       <span class="ba-badge ba-badge-after">Après · ${formatDate(pt.after.date)}</span>

@@ -187,6 +187,17 @@ a { color: inherit; }
   font-weight: 500;
 }
 
+.brand-sub-mobile {
+  display: none;
+  font-size: 0.68rem;
+  color: var(--brand-dark);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 36vw;
+}
+
 .header-stats {
   display: flex;
   gap: 10px;
@@ -1194,6 +1205,20 @@ a { color: inherit; }
   clip-path: inset(0 50% 0 0);
 }
 
+.ba-watermark {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 30%;
+  min-width: 72px;
+  max-width: 128px;
+  height: auto;
+  opacity: 0.55;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
 .ba-badge {
   position: absolute;
   bottom: 12px;
@@ -1371,6 +1396,7 @@ a { color: inherit; }
   }
 
   .brand-sub { display: none; }
+  .brand-sub-mobile { display: block; }
   .header-stats { display: none; }
   .header-spacer { flex: 1 1 auto; }
 
