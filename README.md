@@ -22,9 +22,14 @@ data/points/<slug>/          photos "avant" et "après" de chaque lieu
 
 ## Ajouter un nouveau lieu
 
+N'importe qui peut proposer un lieu via une issue GitHub (gabarit « Proposer
+un nouveau lieu ») ; une fois approuvée (label `pret-a-publier`), l'intégration
+dans `data/points.json` et `data/points/` est automatique (voir
+[.github/workflows/integrer-lieu.yml](.github/workflows/integrer-lieu.yml)).
 Voir **[AJOUTER-UN-LIEU.md](AJOUTER-UN-LIEU.md)** pour la marche à suivre
-complète (structure du dossier, champs de `data/points.json`, compression des
-photos, régénération des placeholders).
+complète (soumission publique, ou ajout manuel : structure du dossier,
+champs de `data/points.json`, compression des photos, régénération des
+placeholders).
 
 ## Développement local
 

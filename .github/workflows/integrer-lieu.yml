@@ -1,0 +1,84 @@
+name: Intégrer un nouveau lieu
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  integrer:
+    if: >-
+      github.event.label.name == 'pret-a-publier' &&
+      contains(github.event.issue.labels.*.name, 'nouveau-lieu')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install Pillow
+
+      - name: Intégrer la soumission
+        id: integration
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ERROR_FILE: /tmp/erreur-integration.txt
+        run: python3 scripts/integrate_submission.py
+
+      - name: Ouvrir la PR de révision
+        if: success()
+        id: pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Ajout du lieu : ${{ steps.integration.outputs.titre }}"
+          branch: "lieu/${{ steps.integration.outputs.slug }}"
+          title: "Nouveau lieu : ${{ steps.integration.outputs.titre }}"
+          body: |
+            Intègre automatiquement la soumission de l'issue #${{ github.event.issue.number }}.
+
+            Closes #${{ github.event.issue.number }}
+
+            Vérifie le rendu (position sur la carte, photos, description) avant de merger.
+          labels: nouveau-lieu
+
+      - name: Commenter l'issue avec le lien de la PR
+        if: success() && steps.pr.outputs['pull-request-number']
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `✅ Soumission intégrée : voir la PR #${{ steps.pr.outputs['pull-request-number'] }} pour révision avant publication.`
+            });
+
+      - name: Signaler l'échec sur l'issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let message = "Erreur inconnue lors de l'intégration.";
+            try {
+              message = fs.readFileSync('/tmp/erreur-integration.txt', 'utf8');
+            } catch (e) {}
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `❌ ${message}\n\nCorrige la soumission (en éditant le texte de l'issue) puis retire et remets le label \`pret-a-publier\` pour réessayer.`
+            });
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: 'pret-a-publier'
+            });

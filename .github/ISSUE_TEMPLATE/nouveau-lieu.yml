@@ -1,0 +1,124 @@
+name: "Proposer un nouveau lieu"
+description: "Soumets une comparaison avant/après d'un espace public transformé à Montréal."
+title: "[Nouveau lieu] "
+labels: ["nouveau-lieu"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de contribuer à la carte ! Remplis les champs ci-dessous aussi
+        précisément que possible. Une fois ta soumission révisée et
+        approuvée, elle sera intégrée automatiquement à la carte.
+
+        💡 Pour trouver la latitude/longitude : clic droit sur l'emplacement
+        dans [Google Maps](https://maps.google.com) ou
+        [OpenStreetMap](https://www.openstreetmap.org) → copier les
+        coordonnées.
+
+  - type: input
+    id: titre
+    attributes:
+      label: "Titre du lieu"
+      description: "Nom court du lieu (ex. « Parc Jeanne-Mance »)."
+      placeholder: "Parc Jeanne-Mance"
+    validations:
+      required: true
+
+  - type: input
+    id: arrondissement
+    attributes:
+      label: "Arrondissement / quartier"
+      placeholder: "Le Plateau-Mont-Royal"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type_lieu
+    attributes:
+      label: "Type d'intervention"
+      options:
+        - "Végétalisation"
+        - "Agrandissement de parc"
+        - "Cour d'école transformée en place publique"
+        - "Retrait d'un panneau publicitaire"
+        - "Création d'un espace piéton"
+        - "Apaisement de la circulation"
+    validations:
+      required: true
+
+  - type: input
+    id: lat
+    attributes:
+      label: "Latitude"
+      placeholder: "45.5142"
+    validations:
+      required: true
+
+  - type: input
+    id: lng
+    attributes:
+      label: "Longitude"
+      placeholder: "-73.5904"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description courte"
+      description: "Quelques phrases décrivant le projet et son emplacement précis."
+    validations:
+      required: true
+
+  - type: input
+    id: auteur
+    attributes:
+      label: "Ton nom (affiché publiquement)"
+      description: "Optionnel. Laisse vide pour rester anonyme."
+    validations:
+      required: false
+
+  - type: input
+    id: date_avant
+    attributes:
+      label: "Date de la photo avant (AAAA-MM)"
+      description: "Optionnel si tu ne connais pas la date exacte."
+      placeholder: "2018-06"
+    validations:
+      required: false
+
+  - type: textarea
+    id: photo_avant
+    attributes:
+      label: "Photo avant — glisse l'image ici"
+      description: >-
+        Clique dans cette case puis glisse-dépose (ou colle) la photo
+        « avant ». GitHub l'uploade et insère automatiquement le lien.
+    validations:
+      required: true
+
+  - type: input
+    id: date_apres
+    attributes:
+      label: "Date de la photo après (AAAA-MM)"
+      placeholder: "2024-09"
+    validations:
+      required: true
+
+  - type: textarea
+    id: photo_apres
+    attributes:
+      label: "Photo après — glisse l'image ici"
+      description: >-
+        Clique dans cette case puis glisse-dépose (ou colle) la photo
+        « après ».
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: consentement
+    attributes:
+      label: "Consentement"
+      options:
+        - label: "J'autorise la publication de ces photos et de mon nom sur le site avant-apres.ca"
+          required: true

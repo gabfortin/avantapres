@@ -1,5 +1,39 @@
 # Ajouter un nouveau lieu
 
+## Via une soumission publique (recommandé)
+
+N'importe qui avec un compte GitHub peut proposer un lieu sans toucher au
+code :
+
+1. Sur le dépôt GitHub, onglet **Issues → New issue → « Proposer un nouveau
+   lieu »**, et remplir le formulaire (titre, arrondissement, type,
+   lat/lng, description, photos avant/après glissées-déposées dans les
+   champs prévus).
+2. Réviser la soumission dans l'issue. Au besoin, demander des précisions
+   en commentaire ou éditer directement le texte de l'issue pour corriger
+   une valeur.
+3. Une fois satisfait, ajouter le label `pret-a-publier` sur l'issue.
+4. Le workflow `.github/workflows/integrer-lieu.yml` se déclenche
+   automatiquement : il télécharge les photos, les compresse, génère
+   l'entrée dans `data/points.json`, régénère les placeholders, puis ouvre
+   une **pull request** de révision (et commente l'issue avec le lien).
+5. Vérifier le diff de la PR (position sur la carte, rendu des photos,
+   description) puis la merger pour publier. Si l'intégration échoue
+   (champ manquant, image introuvable, etc.), le robot explique pourquoi en
+   commentaire sur l'issue et retire le label — corriger et remettre le
+   label pour réessayer.
+
+> ⚙️ **Configuration requise une seule fois** : créer le label
+> `pret-a-publier` dans le dépôt (Issues → Labels → New label). Le label
+> `nouveau-lieu` est créé automatiquement par le gabarit d'issue dès la
+> première soumission.
+
+Le gabarit (`.github/ISSUE_TEMPLATE/nouveau-lieu.yml`) et le workflow sont
+le détail d'implémentation ; le schéma de `data/points.json` ci-dessous
+reste la référence si une correction manuelle est nécessaire.
+
+## Manuellement
+
 1. Créer un dossier dans `data/points/` avec un nom court sans espace
    (ex. `parc-jeanne-mance`).
 2. Y déposer deux photos : `before.jpg` (ou `.png`) et `after.jpg`.
@@ -49,8 +83,9 @@
   ~1500 px de large maximum et qualité ~80 — largement suffisant à l'écran
   et quelques centaines de Ko au lieu de dizaines de Mo.
 
-4. Relancer `python3 scripts/generate-lqip.py` (nécessite macOS) pour
-   régénérer `data/image-lqip.json`, la miniature floutée utilisée comme
+4. Relancer `python3 scripts/generate-lqip.py` (nécessite `pip install
+   Pillow`) pour régénérer `data/image-lqip.json`, la miniature floutée
+   utilisée comme
    placeholder le temps que chaque photo haute résolution charge en
    arrière-plan. Sans cette étape, le nouveau point fonctionne quand même —
    il n'a simplement pas de chargement progressif.
