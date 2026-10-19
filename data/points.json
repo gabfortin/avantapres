@@ -117,7 +117,7 @@
     "type": "agrandissement-parc",
     "author": "Alex Norris",
     "before": { "image": "data/points/parc-laurier/avant.jpg", "date": "2009-04" },
-    "after": { "image": "data/points/parc-laurier/apres.jpg", "date": "2023-02" }
+    "after": { "image": "data/points/parc-laurier/apres.jpg", "date": "2023-06" }
   },
   {
     "id": "parc-lahaie",
@@ -177,7 +177,7 @@
     "type": "agrandissement-parc",
     "author": "Alex Norris",
     "before": { "image": "data/points/parc-laurier-statio/avant.jpg", "date": "" },
-    "after": { "image": "data/points/parc-laurier-statio/apres.jpg", "date": "2023-02" }  
+    "after": { "image": "data/points/parc-laurier-statio/apres.jpg", "date": "2023-06" }  
   },
   {
     "id": "bretelle-clark",
