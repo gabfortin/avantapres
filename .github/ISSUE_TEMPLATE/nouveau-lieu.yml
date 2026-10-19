@@ -1,18 +1,19 @@
 name: "Proposer un nouveau lieu"
-description: "Soumets une comparaison avant/après d'un espace public transformé à Montréal."
+description: "Soumettez une comparaison avant/après d'un espace public transformé à Montréal."
 title: "[Nouveau lieu] "
 labels: ["nouveau-lieu"]
 body:
   - type: markdown
     attributes:
       value: |
-        Merci de contribuer à la carte ! Remplis les champs ci-dessous aussi
-        précisément que possible. Une fois ta soumission révisée et
-        approuvée, elle sera intégrée automatiquement à la carte.
+        Merci de contribuer à cette carte. Veuillez remplir les champs
+        ci-dessous aussi précisément que possible. Une fois votre
+        soumission révisée et approuvée, elle sera intégrée automatiquement
+        à la carte.
 
-        💡 Pour trouver la latitude/longitude : clic droit sur l'emplacement
-        dans [Google Maps](https://maps.google.com) ou
-        [OpenStreetMap](https://www.openstreetmap.org) → copier les
+        💡 Pour obtenir la latitude et la longitude : clic droit sur
+        l'emplacement dans [Google Maps](https://maps.google.com) ou
+        [OpenStreetMap](https://www.openstreetmap.org), puis copier les
         coordonnées.
 
   - type: input
@@ -73,8 +74,8 @@ body:
   - type: input
     id: auteur
     attributes:
-      label: "Ton nom (affiché publiquement)"
-      description: "Optionnel. Laisse vide pour rester anonyme."
+      label: "Votre nom (affiché publiquement)"
+      description: "Facultatif. Laissez ce champ vide pour rester anonyme."
     validations:
       required: false
 
@@ -82,7 +83,7 @@ body:
     id: date_avant
     attributes:
       label: "Date de la photo avant (AAAA-MM)"
-      description: "Optionnel si tu ne connais pas la date exacte."
+      description: "Facultatif si vous ne connaissez pas la date exacte."
       placeholder: "2018-06"
     validations:
       required: false
@@ -90,10 +91,10 @@ body:
   - type: textarea
     id: photo_avant
     attributes:
-      label: "Photo avant — glisse l'image ici"
+      label: "Photo avant — glissez l'image ici"
       description: >-
-        Clique dans cette case puis glisse-dépose (ou colle) la photo
-        « avant ». GitHub l'uploade et insère automatiquement le lien.
+        Cliquez dans cette case, puis glissez-déposez (ou collez) la photo
+        « avant ». GitHub la téléverse et insère automatiquement le lien.
     validations:
       required: true
 
@@ -108,9 +109,9 @@ body:
   - type: textarea
     id: photo_apres
     attributes:
-      label: "Photo après — glisse l'image ici"
+      label: "Photo après — glissez l'image ici"
       description: >-
-        Clique dans cette case puis glisse-dépose (ou colle) la photo
+        Cliquez dans cette case, puis glissez-déposez (ou collez) la photo
         « après ».
     validations:
       required: true

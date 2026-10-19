@@ -31,20 +31,6 @@ TYPE_PAR_LABEL = {
     "Apaisement de la circulation": "apaisement-de-circulation",
 }
 
-CHAMPS = [
-    "Titre du lieu",
-    "Arrondissement / quartier",
-    "Type d'intervention",
-    "Latitude",
-    "Longitude",
-    "Description courte",
-    "Ton nom (affiché publiquement)",
-    "Date de la photo avant (AAAA-MM)",
-    "Photo avant — glisse l'image ici",
-    "Date de la photo après (AAAA-MM)",
-    "Photo après — glisse l'image ici",
-]
-
 MAX_WIDTH = 1500
 JPEG_QUALITY = 82
 
@@ -166,7 +152,7 @@ def main():
             fail("latitude/longitude invalides (doivent être des nombres).")
 
         description = valeur_ou_vide(valeurs, "Description courte")
-        auteur = valeur_ou_vide(valeurs, "Ton nom (affiché publiquement)")
+        auteur = valeur_ou_vide(valeurs, "Votre nom (affiché publiquement)")
         date_avant = valeur_ou_vide(valeurs, "Date de la photo avant (AAAA-MM)")
         date_apres = valeur_ou_vide(valeurs, "Date de la photo après (AAAA-MM)")
 
@@ -180,10 +166,10 @@ def main():
         os.makedirs(dossier, exist_ok=True)
 
         url_avant = extraire_url_image(
-            valeurs.get("Photo avant — glisse l'image ici", ""), "Photo avant"
+            valeurs.get("Photo avant — glissez l'image ici", ""), "Photo avant"
         )
         url_apres = extraire_url_image(
-            valeurs.get("Photo après — glisse l'image ici", ""), "Photo après"
+            valeurs.get("Photo après — glissez l'image ici", ""), "Photo après"
         )
 
         image_avant = telecharger_image(url_avant, os.path.join(dossier, 'before'))

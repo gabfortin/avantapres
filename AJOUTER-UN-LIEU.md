@@ -2,26 +2,28 @@
 
 ## Via une soumission publique (recommandé)
 
-N'importe qui avec un compte GitHub peut proposer un lieu sans toucher au
-code :
+Toute personne disposant d'un compte GitHub peut proposer un lieu sans
+avoir à modifier le code :
 
-1. Sur le dépôt GitHub, onglet **Issues → New issue → « Proposer un nouveau
-   lieu »**, et remplir le formulaire (titre, arrondissement, type,
-   lat/lng, description, photos avant/après glissées-déposées dans les
-   champs prévus).
-2. Réviser la soumission dans l'issue. Au besoin, demander des précisions
-   en commentaire ou éditer directement le texte de l'issue pour corriger
-   une valeur.
-3. Une fois satisfait, ajouter le label `pret-a-publier` sur l'issue.
+1. Dans le dépôt GitHub, onglet **Issues → New issue → « Proposer un
+   nouveau lieu »**, puis remplir le formulaire (titre, arrondissement,
+   type, latitude/longitude, description, photos avant/après déposées dans
+   les champs prévus).
+2. La soumission est révisée dans l'issue. Au besoin, des précisions
+   peuvent être demandées en commentaire, ou une valeur corrigée
+   directement dans le texte de l'issue.
+3. Une fois la soumission jugée conforme, ajouter le label
+   `pret-a-publier` sur l'issue.
 4. Le workflow `.github/workflows/integrer-lieu.yml` se déclenche
-   automatiquement : il télécharge les photos, les compresse, génère
-   l'entrée dans `data/points.json`, régénère les placeholders, puis ouvre
+   alors automatiquement : il télécharge les photos, les compresse, génère
+   l'entrée dans `data/points.json`, régénère les miniatures, puis ouvre
    une **pull request** de révision (et commente l'issue avec le lien).
-5. Vérifier le diff de la PR (position sur la carte, rendu des photos,
-   description) puis la merger pour publier. Si l'intégration échoue
-   (champ manquant, image introuvable, etc.), le robot explique pourquoi en
-   commentaire sur l'issue et retire le label — corriger et remettre le
-   label pour réessayer.
+5. Le diff de la PR est ensuite vérifié (position sur la carte, rendu des
+   photos, description), puis la PR est fusionnée pour publier le lieu.
+   Si l'intégration échoue (champ manquant, image introuvable, etc.), le
+   robot explique la cause en commentaire sur l'issue et retire le label ;
+   une fois la soumission corrigée, le label peut être remis pour relancer
+   l'intégration.
 
 > ⚙️ **Configuration requise une seule fois** : créer le label
 > `pret-a-publier` dans le dépôt (Issues → Labels → New label). Le label
