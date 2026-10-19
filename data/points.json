@@ -129,7 +129,7 @@
     "type": "agrandissement-parc",
     "author": "Alex Norris",
     "before": { "image": "data/points/parc-lahaie/avant.jpg", "date": "2007" },
-    "after": { "image": "data/points/parc-lahaie/apres.jpg", "date": "2023-02" }
+    "after": { "image": "data/points/parc-lahaie/apres.jpg", "date": "2023-06" }
   },
   {
     "id": "parc-baldwin",
@@ -153,7 +153,7 @@
     "type": "agrandissement-parc",
     "author": "Alex Norris",
     "before": { "image": "data/points/parc-compagnons/avant.jpg", "date": "" },
-    "after": { "image": "data/points/parc-compagnons/apres.jpg", "date": "2023-02" }
+    "after": { "image": "data/points/parc-compagnons/apres.jpg", "date": "2023-06" }
   },
   {
     "id": "terrasse-mercure",
@@ -165,7 +165,7 @@
     "type": "agrandissement-parc",
     "author": "Alex Norris",
     "before": { "image": "data/points/terrasse-mercure/avant.jpg", "date": "" },
-    "after": { "image": "data/points/terrasse-mercure/apres.jpg", "date": "2023-02" }
+    "after": { "image": "data/points/terrasse-mercure/apres.jpg", "date": "2023-06" }
   },
   {
     "id": "parc-laurier-statio",
@@ -189,7 +189,7 @@
     "type": "vegetalisation",
     "author": "Alex Norris",
     "before": { "image": "data/points/bretelle-clark/avant.jpg", "date": "" },
-    "after": { "image": "data/points/bretelle-clark/apres.jpg", "date": "2023-02" }
+    "after": { "image": "data/points/bretelle-clark/apres.jpg", "date": "2023-06" }
   },
   {
     "id": "rue-emile-duploye",
@@ -201,7 +201,7 @@
     "type": "agrandissement-parc",
     "author": "Alex Norris",
     "before": { "image": "data/points/rue-emile-duploye/avant.jpg", "date": "2021-06" },
-    "after": { "image": "data/points/rue-emile-duploye/apres.jpg", "date": "2023-02" } 
+    "after": { "image": "data/points/rue-emile-duploye/apres.jpg", "date": "2023-06" } 
   },
   {
     "id": "metro-laurier",
