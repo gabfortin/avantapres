@@ -1049,11 +1049,28 @@ a { color: inherit; }
   white-space: nowrap;
 }
 
+.credit-instagram { display: none; }
+
 @media (max-width: 760px) {
   .credits-label { display: none; }
   /* Sits above the intro toast (bottom:18px, up to two lines tall) so the
      two floating elements never overlap in the bottom-left corner. */
-  .credits-badge { padding: 6px; bottom: 82px; }
+  .credits-badge { padding: 6px 8px 6px 6px; bottom: 82px; }
+
+  .credit-instagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    margin-left: 6px;
+    color: #b4bac4;
+    transition: color 0.18s ease;
+  }
+
+  .credit-instagram svg { width: 18px; height: 18px; }
+
+  .credit-instagram:active { color: var(--ink-500); }
 }
 
 /* ---------- Detail panel ---------- */
