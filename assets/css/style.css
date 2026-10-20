@@ -1026,7 +1026,8 @@ a { color: inherit; }
   transition: transform 0.18s ease;
 }
 
-.credit-avatar:first-child { margin-left: 0; z-index: 1; }
+.credit-avatar:first-child { margin-left: 0; }
+.credit-avatar:nth-child(2) { z-index: 1; }
 
 .credit-avatar:hover,
 .credit-avatar:focus-visible {
