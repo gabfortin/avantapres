@@ -1029,6 +1029,12 @@ a { color: inherit; }
 .credit-avatar:first-child { margin-left: 0; }
 .credit-avatar:nth-child(2) { z-index: 1; }
 
+/* Desktop: Gabriel left, Alex right, to match the credits label order. */
+@media (min-width: 761px) {
+  .credit-avatar:nth-child(2) { order: -1; margin-left: 0; }
+  .credit-avatar:first-child { margin-left: -10px; }
+}
+
 .credit-avatar:hover,
 .credit-avatar:focus-visible {
   transform: translateY(-3px) scale(1.1);
