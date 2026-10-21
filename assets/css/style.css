@@ -987,6 +987,18 @@ a { color: inherit; }
 
 .about-person-role { font-size: 0.76rem; color: var(--ink-500); }
 
+.about-privacy {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.76rem;
+  color: var(--ink-500);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.about-privacy:hover { color: var(--brand-dark); }
+
 /* ---------- Credits badge ---------- */
 
 .credits-badge {
