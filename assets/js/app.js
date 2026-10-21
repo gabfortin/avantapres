@@ -520,6 +520,12 @@
     root._sliderAbort = ac;
 
     function onPointerDown(e) {
+      // Pointer capture retargets the subsequent click to `root`, so a press
+      // starting on the fullscreen button would never reach its own click
+      // handler — let that button handle its own clicks instead of starting
+      // a drag.
+      if (e.target.closest('.ba-fullscreen-btn')) return;
+
       root.setPointerCapture(e.pointerId);
       measure();
       applyPosition(pctFromClientX(e.clientX));
@@ -623,6 +629,11 @@
 
       root.style.width = `${Math.round(width)}px`;
       root.style.height = `${Math.round(height)}px`;
+
+      // The slider was measured (handle position, badge fade) at its
+      // pre-fit size — often 0×0, before this explicit width/height landed.
+      // Re-trigger that measurement now that the real box size is known.
+      window.dispatchEvent(new Event('resize'));
     });
   }
 
