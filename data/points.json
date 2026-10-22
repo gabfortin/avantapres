@@ -252,7 +252,7 @@
     "author": "Alex Norris",
     "before": {
       "image": "data/points/parc-compagnons/avant.jpg",
-      "date": ""
+      "date": "2018-10"
     },
     "after": {
       "image": "data/points/parc-compagnons/apres.jpg",
@@ -272,7 +272,7 @@
     "author": "Alex Norris",
     "before": {
       "image": "data/points/terrasse-mercure/avant.jpg",
-      "date": ""
+      "date": "2009-04"
     },
     "after": {
       "image": "data/points/terrasse-mercure/apres.jpg",
@@ -312,7 +312,7 @@
     "author": "Alex Norris",
     "before": {
       "image": "data/points/bretelle-clark/avant.jpg",
-      "date": ""
+      "date": "2014-08"
     },
     "after": {
       "image": "data/points/bretelle-clark/apres.jpg",
@@ -372,7 +372,7 @@
     "author": "Alex Norris",
     "before": {
       "image": "data/points/napoleon-bullion/avant.jpg",
-      "date": ""
+      "date": "2018-10"
     },
     "after": {
       "image": "data/points/napoleon-bullion/apres.jpg",
