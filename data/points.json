@@ -299,4 +299,16 @@
     "before": { "image": "data/points/pointerolles/avant.jpeg", "date": "2026-05" },
     "after": { "image": "data/points/pointerolles/apres.jpg", "date": "2026-08" }
   }
+  {
+  "id": "lariviere-delorimier",
+  "title": "Rue Larivière",
+  "borough": "Ville-Marie",
+  "lat": 45.529059176881326,
+  "lng":  -73.55921538618216,
+  "description": "La rue Larivière a été transformée en rue-éponge piétonne entre De Lorimier et Parthenais, entre le parc des Royaux et l’école Pierre-Dupuy. Ce projet allie apaisement de la circulation et gestion des eaux pluviales pour réduire les risques d’inondation dans le secteur.",
+  "author": "Christopher McCray",
+  "type": "espace-pieton",
+  "before": { "image": "data/points/lariviere-delorimier/before.png", "date": "2020-11" },
+  "after":  { "image": "data/points/lariviere-delorimier/after.png",  "date": "2026-10" }
+ }
 ]
