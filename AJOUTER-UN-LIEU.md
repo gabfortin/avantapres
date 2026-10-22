@@ -92,6 +92,12 @@ reste la référence si une correction manuelle est nécessaire.
    arrière-plan. Sans cette étape, le nouveau point fonctionne quand même —
    il n'a simplement pas de chargement progressif.
 
+5. Rien à faire pour le lien de partage : une fois le changement poussé sur
+   `main`, le workflow `generer-pages.yml` lance
+   `scripts/generate-pages.py`, qui crée `lieu/<id>/` (page d'aperçu pour
+   les réseaux sociaux + image avant/après) et met à jour `sitemap.xml`.
+   Le lien à partager est `https://avant-apres.ca/lieu/<id>/`.
+
 Aucune compilation n'est nécessaire : recharger simplement la page, le point
 apparaît sur la carte.
 

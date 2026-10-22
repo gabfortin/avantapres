@@ -1,0 +1,43 @@
+name: Générer les pages de partage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/points.json
+      - data/points/**
+      - scripts/generate-pages.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generer-pages
+  cancel-in-progress: false
+
+jobs:
+  generer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install Pillow
+
+      - run: python3 scripts/generate-pages.py
+
+      - name: Publier les pages générées
+        run: |
+          git add lieu sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Aucun changement."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Régénérer les pages de partage"
+          git push

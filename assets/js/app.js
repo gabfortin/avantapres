@@ -69,6 +69,12 @@
   };
   const DEFAULT_PIN_TYPE = 'vegetalisation';
 
+  const AUTHOR_LINKS = {
+    'gabriel fortin': 'https://gabfortin.com',
+    'alex norris': 'https://projetmontreal.org/equipe/alexander-norris',
+    'christopher mccray': 'https://linktr.ee/chrismccray'
+  };
+
   function pinTypeOf(pt) {
     if (pt.type && !PIN_TYPES[pt.type]) {
       console.warn(
@@ -86,6 +92,7 @@
     activeBorough: 'all',
     activeTypes: new Set(),
     map: null,
+    openPoint: null,
     lqip: {}
   };
 
@@ -159,6 +166,7 @@
       populateTypeSidebar(points);
       updateStats(points);
       status.classList.add('hidden');
+      openFromUrl();
     } catch (err) {
       console.error('Impossible de charger data/points.json', err);
       status.classList.remove('hidden');
@@ -349,6 +357,7 @@
     document.getElementById('detail-close').addEventListener('click', closeDetail);
     document.getElementById('detail-close-mobile').addEventListener('click', closeDetail);
     document.getElementById('overlay-scrim').addEventListener('click', closeDetail);
+    document.getElementById('detail-share').addEventListener('click', shareCurrent);
 
     document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
     document.getElementById('type-sidebar-close').addEventListener('click', closeSidebar);
@@ -394,10 +403,70 @@
     else openSidebar();
   }
 
+  const URL_PARAM = 'lieu';
+  const DEFAULT_TITLE = document.title;
+
+  function pointUrl(id) {
+    const url = new URL(window.location.href);
+    url.hash = '';
+    if (id) url.searchParams.set(URL_PARAM, id);
+    else url.searchParams.delete(URL_PARAM);
+    return url.toString();
+  }
+
+  // Lien partagé : la page statique lieu/<id>/ porte l'aperçu (image, titre)
+  // propre au lieu pour les réseaux sociaux, puis redirige vers ?lieu=<id>.
+  function shareUrl(id) {
+    return new URL(`lieu/${encodeURIComponent(id)}/`, window.location.href.split(/[?#]/)[0]).toString();
+  }
+
+  function syncUrl(id) {
+    const next = pointUrl(id);
+    if (next !== window.location.href) history.replaceState(null, '', next);
+  }
+
+  function openFromUrl() {
+    const id = new URLSearchParams(window.location.search).get(URL_PARAM);
+    if (!id) return;
+    const entry = state.markers.get(id);
+    if (!entry) {
+      syncUrl(null);
+      return;
+    }
+    state.map.setView(entry.marker.getLatLng(), 17, { animate: false });
+    openDetail(id);
+  }
+
+  async function shareCurrent() {
+    const pt = state.openPoint;
+    if (!pt) return;
+    const url = shareUrl(pt.id);
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `${pt.title} — Avant / Après`, url });
+      } catch (err) { /* partage annulé */ }
+      return;
+    }
+    const btn = document.getElementById('detail-share');
+    const label = btn.querySelector('.detail-share-label');
+    try {
+      await navigator.clipboard.writeText(url);
+      label.textContent = 'Lien copié !';
+    } catch (err) {
+      window.prompt('Copiez ce lien :', url);
+      return;
+    }
+    clearTimeout(btn._resetTimer);
+    btn._resetTimer = setTimeout(() => { label.textContent = 'Partager'; }, 2000);
+  }
+
   function openDetail(id) {
     const entry = state.markers.get(id);
     if (!entry) return;
     const pt = entry.data;
+    state.openPoint = pt;
+    syncUrl(pt.id);
+    document.title = `${pt.title} — Avant / Après`;
 
     const panel = document.getElementById('detail-panel');
     const scrim = document.getElementById('overlay-scrim');
@@ -415,7 +484,19 @@
 
     const authorRow = document.getElementById('meta-author-row');
     if (pt.author) {
-      document.getElementById('meta-author').textContent = pt.author;
+      const authorEl = document.getElementById('meta-author');
+      const href = AUTHOR_LINKS[pt.author.trim().toLowerCase()];
+      authorEl.textContent = '';
+      if (href) {
+        const link = document.createElement('a');
+        link.href = href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = pt.author;
+        authorEl.appendChild(link);
+      } else {
+        authorEl.textContent = pt.author;
+      }
       authorRow.style.display = '';
     } else {
       authorRow.style.display = 'none';
@@ -432,6 +513,11 @@
   }
 
   function closeDetail() {
+    if (state.openPoint) {
+      state.openPoint = null;
+      syncUrl(null);
+      document.title = DEFAULT_TITLE;
+    }
     document.getElementById('detail-panel').classList.remove('open');
     document.getElementById('overlay-scrim').classList.remove('open');
   }

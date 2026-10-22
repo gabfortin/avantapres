@@ -1215,6 +1215,46 @@ a { color: inherit; }
 .detail-meta .value.before-color { color: #94622f; }
 .detail-meta .value.after-color { color: var(--brand-dark); }
 
+.detail-meta .value a {
+  color: var(--brand-dark);
+  text-decoration: underline;
+  text-decoration-color: rgba(22, 163, 74, 0.35);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.18s var(--ease);
+}
+
+.detail-meta .value a::after {
+  content: '↗';
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 0.85em;
+  transition: transform 0.18s var(--ease);
+}
+
+.detail-meta .value a:hover { text-decoration-color: currentColor; }
+.detail-meta .value a:hover::after { transform: translate(2px, -2px); }
+
+.detail-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--brand-dark);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s var(--ease);
+}
+
+.detail-share:hover { background: rgba(22, 163, 74, 0.08); }
+
+.detail-share svg { width: 16px; height: 16px; }
+
 /* ---------- Before/after slider ---------- */
 
 .ba-slider {
