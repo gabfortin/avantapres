@@ -33,19 +33,18 @@ body:
     validations:
       required: true
 
-  - type: dropdown
+  - type: checkboxes
     id: type_lieu
     attributes:
-      label: "Type d'intervention"
+      label: "Type(s) d'intervention"
+      description: "Cochez une ou plusieurs catégories qui s'appliquent à ce lieu."
       options:
-        - "Végétalisation"
-        - "Agrandissement de parc"
-        - "Cour d'école transformée en place publique"
-        - "Retrait d'un panneau publicitaire"
-        - "Création d'un espace piéton"
-        - "Apaisement de la circulation"
-    validations:
-      required: true
+        - label: "Végétalisation"
+        - label: "Agrandissement de parc"
+        - label: "Cour d'école transformée en place publique"
+        - label: "Retrait d'un panneau publicitaire"
+        - label: "Création d'un espace piéton"
+        - label: "Apaisement de la circulation"
 
   - type: input
     id: lat

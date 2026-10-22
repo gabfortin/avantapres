@@ -75,15 +75,26 @@
     'christopher mccray': 'https://linktr.ee/chrismccray'
   };
 
-  function pinTypeOf(pt) {
-    if (pt.type && !PIN_TYPES[pt.type]) {
+  // A point can belong to several categories (e.g. a street that's both
+  // "espace-pieton" and "vegetalisation"). `types` is the array form; the
+  // older singular `type` field is still read for any point that hasn't
+  // been migrated. The first entry is the "primary" type, used wherever
+  // a point can only show one color/icon (map pin, popup button).
+  function pinTypesOf(pt) {
+    const raw = Array.isArray(pt.types) ? pt.types : (pt.type ? [pt.type] : []);
+    const valid = raw.filter((t) => PIN_TYPES[t]);
+    const invalid = raw.filter((t) => !PIN_TYPES[t]);
+    if (invalid.length) {
       console.warn(
-        `data/points.json: type "${pt.type}" inconnu pour le point "${pt.id}" ` +
-        `(valeurs valides : ${Object.keys(PIN_TYPES).join(', ')}). ` +
-        `Affiché en "${DEFAULT_PIN_TYPE}" par défaut.`
+        `data/points.json: type(s) "${invalid.join(', ')}" inconnu(s) pour le point "${pt.id}" ` +
+        `(valeurs valides : ${Object.keys(PIN_TYPES).join(', ')}).`
       );
     }
-    return PIN_TYPES[pt.type] ? pt.type : DEFAULT_PIN_TYPE;
+    return valid.length ? valid : [DEFAULT_PIN_TYPE];
+  }
+
+  function primaryPinType(pt) {
+    return pinTypesOf(pt)[0];
   }
 
   const state = {
@@ -195,7 +206,7 @@
     const headerClearance = Math.ceil(document.querySelector('.site-header').getBoundingClientRect().bottom) + 16;
 
     points.forEach((pt) => {
-      const type = pinTypeOf(pt);
+      const type = primaryPinType(pt);
       const icon = L.divIcon({
         className: '',
         html: `<div class="growth-marker type-${type}">
@@ -258,14 +269,14 @@
   function populateTypeSidebar(points) {
     const list = document.getElementById('type-sidebar-list');
     const typesPresent = Object.keys(PIN_TYPES).filter((key) =>
-      points.some((p) => pinTypeOf(p) === key)
+      points.some((p) => pinTypesOf(p).includes(key))
     );
 
     state.activeTypes = new Set(typesPresent);
 
     typesPresent.forEach((key) => {
       const info = PIN_TYPES[key];
-      const count = points.filter((p) => pinTypeOf(p) === key).length;
+      const count = points.filter((p) => pinTypesOf(p).includes(key)).length;
 
       const label = document.createElement('label');
       label.className = `type-sidebar-item type-${key}`;
@@ -297,7 +308,7 @@
   function applyFilter() {
     state.markers.forEach(({ marker, data }) => {
       const boroughMatch = state.activeBorough === 'all' || data.borough === state.activeBorough;
-      const typeMatch = state.activeTypes.has(pinTypeOf(data));
+      const typeMatch = pinTypesOf(data).some((t) => state.activeTypes.has(t));
       const show = boroughMatch && typeMatch;
       const has = state.map.hasLayer(marker);
       if (show && !has) marker.addTo(state.map);
@@ -471,10 +482,14 @@
     const panel = document.getElementById('detail-panel');
     const scrim = document.getElementById('overlay-scrim');
 
-    const type = pinTypeOf(pt);
-    const eyebrow = document.getElementById('detail-eyebrow');
-    eyebrow.textContent = `${PIN_TYPES[type].emoji} ${PIN_TYPES[type].label}`;
-    eyebrow.className = `detail-eyebrow type-${type}`;
+    const eyebrowRow = document.getElementById('detail-eyebrow');
+    eyebrowRow.innerHTML = '';
+    pinTypesOf(pt).forEach((t) => {
+      const badge = document.createElement('span');
+      badge.className = `detail-eyebrow type-${t}`;
+      badge.textContent = `${PIN_TYPES[t].emoji} ${PIN_TYPES[t].label}`;
+      eyebrowRow.appendChild(badge);
+    });
 
     document.getElementById('detail-title').textContent = pt.title;
     document.getElementById('detail-borough').textContent = pt.borough;

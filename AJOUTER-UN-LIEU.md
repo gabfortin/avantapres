@@ -7,8 +7,8 @@ avoir à modifier le code :
 
 1. Dans le dépôt GitHub, onglet **Issues → New issue → « Proposer un
    nouveau lieu »**, puis remplir le formulaire (titre, arrondissement,
-   type, latitude/longitude, description, photos avant/après déposées dans
-   les champs prévus).
+   type(s) — une ou plusieurs cases à cocher —, latitude/longitude,
+   description, photos avant/après déposées dans les champs prévus).
 2. La soumission est révisée dans l'issue. Au besoin, des précisions
    peuvent être demandées en commentaire, ou une valeur corrigée
    directement dans le texte de l'issue.
@@ -50,7 +50,7 @@ reste la référence si une correction manuelle est nécessaire.
   "lng": -73.5904,
   "description": "Description courte du projet de verdissement.",
   "author": "Prénom Nom",
-  "type": "vegetalisation",
+  "types": ["vegetalisation"],
   "before": { "image": "data/points/parc-jeanne-mance/before.jpg", "date": "2018-06" },
   "after":  { "image": "data/points/parc-jeanne-mance/after.jpg",  "date": "2024-09" }
 }
@@ -59,7 +59,12 @@ reste la référence si une correction manuelle est nécessaire.
 - `author` : le nom de la personne qui a pris/soumis la comparaison. Affiché
   dans le popup de la carte et dans le panneau de détail. Ce champ est
   optionnel — s'il est absent, la ligne ne s'affiche simplement pas.
-- `type` : détermine la couleur et l'icône du point sur la carte. Valeurs
+- `types` : tableau d'une ou plusieurs valeurs, pour les lieux qui
+  combinent plusieurs catégories (ex. une rue à la fois végétalisée et
+  transformée en espace piéton : `["vegetalisation", "espace-pieton"]`).
+  La première valeur du tableau est la catégorie « primaire » : c'est elle
+  qui détermine la couleur/icône du point sur la carte et du bouton du
+  popup (le panneau de détail, lui, affiche un badge par type). Valeurs
   possibles :
   - `vegetalisation` (feuille verte) — valeur par défaut si le champ est
     absent, pas besoin de l'ajouter aux points existants.

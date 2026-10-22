@@ -96,6 +96,20 @@ def extraire_url_image(texte, nom_champ):
     return m.group(1)
 
 
+def extraire_types_coches(texte):
+    labels = re.findall(r'(?m)^- \[[xX]\] (.+)$', texte)
+    slugs = []
+    for label in labels:
+        slug = TYPE_PAR_LABEL.get(label.strip())
+        if not slug:
+            fail(f"type d'intervention inconnu : « {label.strip()} »")
+        if slug not in slugs:
+            slugs.append(slug)
+    if not slugs:
+        fail("aucun type d'intervention coché (au moins un est requis).")
+    return slugs
+
+
 def telecharger_image(url, dest_sans_extension):
     from PIL import Image
     import io
@@ -133,17 +147,14 @@ def main():
     try:
         valeurs = parse_issue_body(issue_body)
 
-        for champ in ("Titre du lieu", "Arrondissement / quartier", "Type d'intervention",
+        for champ in ("Titre du lieu", "Arrondissement / quartier",
                       "Latitude", "Longitude", "Description courte"):
             if not valeur_ou_vide(valeurs, champ):
                 fail(f"le champ obligatoire « {champ} » est vide ou introuvable.")
 
         titre = valeur_ou_vide(valeurs, "Titre du lieu")
         arrondissement = valeur_ou_vide(valeurs, "Arrondissement / quartier")
-        type_label = valeur_ou_vide(valeurs, "Type d'intervention")
-        type_slug = TYPE_PAR_LABEL.get(type_label)
-        if not type_slug:
-            fail(f"type d'intervention inconnu : « {type_label} »")
+        types_slugs = extraire_types_coches(valeurs.get("Type(s) d'intervention", ""))
 
         try:
             lat = float(valeur_ou_vide(valeurs, "Latitude").replace(',', '.'))
@@ -182,7 +193,7 @@ def main():
             "lat": lat,
             "lng": lng,
             "description": description,
-            "type": type_slug,
+            "types": types_slugs,
             "before": {"image": image_avant, "date": date_avant},
             "after": {"image": image_apres, "date": date_apres},
         }
