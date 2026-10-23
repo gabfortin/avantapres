@@ -519,5 +519,25 @@
       "image": "data/points/lariviere-delorimier/after.png",
       "date": "2026-10"
     }
+  },
+  {
+    "id": "rue-eadie-parc-campbell-ouest",
+    "title": "Rue Eadie / Parc Campbell-Ouest",
+    "borough": "Le Sud-Ouest",
+    "lat": 45.457815,
+    "lng": -73.59053,
+    "description": "La rue Eadie entre la rue Dubois et la rue De Maricourt a été déminéralisée et intégrée au parc Campbell-Ouest. Le lot n'est officiellement plus une rue et fait maintenant officiellement partie du parc.",
+    "types": [
+      "agrandissement-parc"
+    ],
+    "before": {
+      "image": "data/points/rue-eadie-parc-campbell-ouest/before.jpg",
+      "date": "2015-06"
+    },
+    "after": {
+      "image": "data/points/rue-eadie-parc-campbell-ouest/after.jpg",
+      "date": "2026-10"
+    },
+    "author": "Nicolas Jolicoeur"
   }
 ]
