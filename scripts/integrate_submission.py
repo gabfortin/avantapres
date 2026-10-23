@@ -87,11 +87,16 @@ def slug_disponible(base_slug, points_existants):
 
 
 def extraire_url_image(texte, nom_champ):
+    # GitHub insère du markdown (![alt](url)) pour un glisser-déposer, mais
+    # du HTML (<img src="url" ...>) pour certaines images collées (ex.
+    # captures d'écran redimensionnables) — les deux formes sont valides.
     m = re.search(r'!\[[^\]]*\]\((https?://[^\s)]+)\)', texte)
+    if not m:
+        m = re.search(r'<img\b[^>]*\bsrc=["\'](https?://[^"\']+)["\']', texte, re.IGNORECASE)
     if not m:
         fail(
             f"aucune image détectée dans le champ « {nom_champ} ». "
-            "Glisse-dépose bien l'image directement dans la case prévue."
+            "Glisse-dépose (ou colle) l'image directement dans la case prévue."
         )
     return m.group(1)
 

@@ -26,9 +26,8 @@ avoir à modifier le code :
    l'intégration.
 
 > ⚙️ **Configuration requise une seule fois** : créer le label
-> `pret-a-publier` dans le dépôt (Issues → Labels → New label). Le label
-> `nouveau-lieu` est créé automatiquement par le gabarit d'issue dès la
-> première soumission.
+> `pret-a-publier` dans le dépôt (Issues → Labels → New label). C'est le
+> seul label dont le workflow a besoin.
 
 Le gabarit (`.github/ISSUE_TEMPLATE/nouveau-lieu.yml`) et le workflow sont
 le détail d'implémentation ; le schéma de `data/points.json` ci-dessous

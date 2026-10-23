@@ -11,9 +11,7 @@ permissions:
 
 jobs:
   integrer:
-    if: >-
-      github.event.label.name == 'pret-a-publier' &&
-      contains(github.event.issue.labels.*.name, 'nouveau-lieu')
+    if: github.event.label.name == 'pret-a-publier'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +44,6 @@ jobs:
             Closes #${{ github.event.issue.number }}
 
             Vérifie le rendu (position sur la carte, photos, description) avant de merger.
-          labels: nouveau-lieu
 
       - name: Commenter l'issue avec le lien de la PR
         if: success() && steps.pr.outputs['pull-request-number']
