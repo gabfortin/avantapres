@@ -72,7 +72,8 @@
   const AUTHOR_LINKS = {
     'gabriel fortin': 'https://gabfortin.com',
     'alex norris': 'https://projetmontreal.org/equipe/alexander-norris',
-    'christopher mccray': 'https://linktr.ee/chrismccray'
+    'christopher mccray': 'https://linktr.ee/chrismccray',
+    'nicolas jolicoeur': 'https://www.jolicoeurmtl.com'
   };
 
   // A point can belong to several categories (e.g. a street that's both
