@@ -145,16 +145,19 @@
       minZoom: 10,
       maxZoom: 18,
       attributionControl: false
-    }).setView([45.5195, -73.5815], 15);
+    }).setView([45.50, -73.582], 12);
 
     L.control.zoom({ position: 'bottomright' }).addTo(state.map);
     L.control.attribution({ position: 'bottomright' }).addTo(state.map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      // No {s} subdomain sharding: on HTTP/2 (which these servers support)
+      // a single reused, multiplexed connection beats splitting requests
+      // across a/b/c hosts, which only pays off on HTTP/1.1.
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      subdomains: 'abc',
       maxZoom: 19,
-      className: 'map-tiles-muted'
+      className: 'map-tiles-muted',
+      updateWhenZooming: false
     }).addTo(state.map);
   }
 
@@ -249,6 +252,18 @@
 
       state.markers.set(pt.id, { marker, data: pt });
     });
+
+    // Frame every point by default instead of a hand-picked zoom/center —
+    // avoids re-tuning this each time a point lands in a new, farther-out
+    // borough (e.g. Ville-Marie, Le Sud-Ouest).
+    if (points.length) {
+      const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lng]));
+      state.map.fitBounds(bounds, {
+        paddingTopLeft: L.point(20, headerClearance),
+        paddingBottomRight: L.point(20, 20),
+        maxZoom: 15
+      });
+    }
   }
 
   function populateBoroughFilter(points) {
