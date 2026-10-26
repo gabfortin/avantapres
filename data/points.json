@@ -203,7 +203,7 @@
     "id": "parc-lahaie",
     "title": "Parc Lahaie",
     "borough": "Plateau-Mont-Royal",
-    "lat": 45.52320077941861, 
+    "lat": 45.52320077941861,
     "lng": -73.59165045468279,
     "description": "Le désasphaltage et réaménagement de la rue Saint-Dominique devant l'église Saint-Enfant-Jésus a permis d'installer une fontaine, une promenade piétonnière, des bancs et des plantations là où il y avait du stationnement et ainsi d'agrandir le parc Lahaie dans le Mile End.",
     "types": [
@@ -536,6 +536,26 @@
     },
     "after": {
       "image": "data/points/rue-eadie-parc-campbell-ouest/after.jpg",
+      "date": "2026-10"
+    },
+    "author": "Nicolas Jolicoeur"
+  },
+  {
+    "id": "rue-eadie-parc-campbell-ouest-2",
+    "title": "Rue Eadie / Parc Campbell-Ouest",
+    "borough": "Le Sud-Ouest",
+    "lat": 45.457815,
+    "lng": -73.59053,
+    "description": "La rue Eadie entre la rue Dubois et la rue De Maricourt a été déminéralisée et intégrée au parc Campbell-Ouest. Le lot n'est officiellement plus une rue et fait maintenant officiellement partie du parc.",
+    "types": [
+      "agrandissement-parc"
+    ],
+    "before": {
+      "image": "data/points/rue-eadie-parc-campbell-ouest-2/before.jpg",
+      "date": "2015-06"
+    },
+    "after": {
+      "image": "data/points/rue-eadie-parc-campbell-ouest-2/after.jpg",
       "date": "2026-10"
     },
     "author": "Nicolas Jolicoeur"
