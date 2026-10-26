@@ -1,0 +1,88 @@
+name: "Proposer une modification"
+description: "Propose une mise à jour pour un lieu déjà publié sur la carte (photos, description, type(s))."
+title: "[Modifier lieu] "
+labels: ["modifier-lieu"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Utilisez ce formulaire pour corriger ou mettre à jour un lieu déjà
+        publié (nouvelle photo, description corrigée, type(s) à ajuster).
+        Pour proposer un nouveau lieu, utilisez plutôt le gabarit
+        « Proposer un nouveau lieu ».
+
+        Laissez vide tout champ que vous ne souhaitez pas modifier.
+
+  - type: input
+    id: lien_lieu
+    attributes:
+      label: "Lien du lieu à modifier"
+      description: >-
+        Collez le lien du bouton « Partager » sur la fiche du lieu
+        (ressemble à https://avant-apres.ca/lieu/nom-du-lieu/), ou
+        simplement son identifiant.
+      placeholder: "https://avant-apres.ca/lieu/parc-jeanne-mance/"
+    validations:
+      required: true
+
+  - type: textarea
+    id: raison
+    attributes:
+      label: "Raison de la modification"
+      description: "Qu'est-ce qui change, et pourquoi ?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: nouvelle_description
+    attributes:
+      label: "Nouvelle description (optionnel)"
+      description: "Laissez vide pour ne pas changer la description actuelle."
+
+  - type: checkboxes
+    id: nouveaux_types
+    attributes:
+      label: "Type(s) d'intervention (optionnel)"
+      description: >-
+        Cochez le(s) type(s) qui devraient s'appliquer une fois mis à jour
+        (remplace la liste actuelle). Laissez tout décoché pour ne pas
+        changer les types actuels.
+      options:
+        - label: "Végétalisation"
+        - label: "Agrandissement de parc"
+        - label: "Cour d'école transformée en place publique"
+        - label: "Retrait d'un panneau publicitaire"
+        - label: "Création d'un espace piéton"
+        - label: "Apaisement de la circulation"
+
+  - type: input
+    id: nouvelle_date_avant
+    attributes:
+      label: "Nouvelle date de la photo avant (AAAA-MM, optionnel)"
+      placeholder: "2018-06"
+
+  - type: textarea
+    id: nouvelle_photo_avant
+    attributes:
+      label: "Nouvelle photo avant (optionnel) — glissez l'image ici"
+      description: "Laissez vide pour garder la photo avant actuelle."
+
+  - type: input
+    id: nouvelle_date_apres
+    attributes:
+      label: "Nouvelle date de la photo après (AAAA-MM, optionnel)"
+      placeholder: "2024-09"
+
+  - type: textarea
+    id: nouvelle_photo_apres
+    attributes:
+      label: "Nouvelle photo après (optionnel) — glissez l'image ici"
+      description: "Laissez vide pour garder la photo après actuelle."
+
+  - type: checkboxes
+    id: consentement
+    attributes:
+      label: "Consentement"
+      options:
+        - label: "J'autorise la publication de ces changements sur le site avant-apres.ca"
+          required: true

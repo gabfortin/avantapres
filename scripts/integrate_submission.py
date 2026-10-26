@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-Intègre une soumission publique (issue GitHub créée via le gabarit
-« Proposer un nouveau lieu ») dans data/points.json et data/points/<slug>/.
+Intègre une soumission publique créée via un des gabarits d'issue GitHub :
+« Proposer un nouveau lieu » (ajoute une entrée dans data/points.json) ou
+« Proposer une modification » (met à jour une entrée existante). Lequel des
+deux est déterminé par la présence du champ « Lien du lieu à modifier ».
 
 Appelé par le workflow .github/workflows/integrer-lieu.yml quand le label
 d'approbation est ajouté sur une issue. Pas destiné à un usage manuel.
@@ -17,6 +19,7 @@ import re
 import sys
 import unicodedata
 import urllib.request
+import uuid
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POINTS_JSON = os.path.join(ROOT, 'data', 'points.json')
@@ -86,6 +89,23 @@ def slug_disponible(base_slug, points_existants):
     fail(f"impossible de trouver un identifiant unique pour « {base_slug} »")
 
 
+def extraire_id_lieu(texte):
+    texte = texte.strip()
+    m = re.search(r'/lieu/([a-z0-9-]+)/?', texte)
+    if m:
+        return m.group(1)
+    m = re.search(r'[?&]lieu=([a-z0-9-]+)', texte)
+    if m:
+        return m.group(1)
+    if re.match(r'^[a-z0-9-]+$', texte):
+        return texte
+    fail(
+        f"impossible de reconnaître l'identifiant du lieu dans « {texte} ». "
+        "Utilise le lien du bouton « Partager » du lieu "
+        "(https://avant-apres.ca/lieu/<identifiant>/) ou son identifiant exact."
+    )
+
+
 def extraire_url_image(texte, nom_champ):
     # GitHub insère du markdown (![alt](url)) pour un glisser-déposer, mais
     # du HTML (<img src="url" ...>) pour certaines images collées (ex.
@@ -101,7 +121,7 @@ def extraire_url_image(texte, nom_champ):
     return m.group(1)
 
 
-def extraire_types_coches(texte):
+def extraire_types_coches(texte, requis=True):
     labels = re.findall(r'(?m)^- \[[xX]\] (.+)$', texte)
     slugs = []
     for label in labels:
@@ -110,7 +130,7 @@ def extraire_types_coches(texte):
             fail(f"type d'intervention inconnu : « {label.strip()} »")
         if slug not in slugs:
             slugs.append(slug)
-    if not slugs:
+    if requis and not slugs:
         fail("aucun type d'intervention coché (au moins un est requis).")
     return slugs
 
@@ -144,6 +164,189 @@ def telecharger_image(url, dest_sans_extension):
     return os.path.relpath(chemin_final, ROOT)
 
 
+def remplacer_image(point, champ, texte_champ, dossier, nom_champ_humain):
+    url = extraire_url_image(texte_champ, nom_champ_humain)
+    ancien_abs = os.path.join(ROOT, point[champ]['image'])
+    nouveau_rel = telecharger_image(url, os.path.join(dossier, champ))
+    nouveau_abs = os.path.join(ROOT, nouveau_rel)
+    if os.path.abspath(ancien_abs) != os.path.abspath(nouveau_abs) and os.path.isfile(ancien_abs):
+        os.remove(ancien_abs)
+    point[champ]['image'] = nouveau_rel
+
+
+def regenerate_lqip():
+    import importlib.util
+    lqip_spec = importlib.util.spec_from_file_location(
+        'generate_lqip', os.path.join(ROOT, 'scripts', 'generate-lqip.py')
+    )
+    generate_lqip = importlib.util.module_from_spec(lqip_spec)
+    lqip_spec.loader.exec_module(generate_lqip)
+    generate_lqip.main()
+
+
+def ecrire_github_output(valeurs_sortie):
+    chemin = os.environ.get('GITHUB_OUTPUT')
+    if not chemin:
+        return
+    with open(chemin, 'a', encoding='utf-8') as f:
+        for cle, valeur in valeurs_sortie.items():
+            if '\n' in valeur:
+                delimiteur = f"EOF_{uuid.uuid4().hex}"
+                f.write(f"{cle}<<{delimiteur}\n{valeur}\n{delimiteur}\n")
+            else:
+                f.write(f"{cle}={valeur}\n")
+
+
+def creer_nouveau_lieu(valeurs, issue_number):
+    for champ in ("Titre du lieu", "Arrondissement / quartier",
+                  "Latitude", "Longitude", "Description courte"):
+        if not valeur_ou_vide(valeurs, champ):
+            fail(f"le champ obligatoire « {champ} » est vide ou introuvable.")
+
+    titre = valeur_ou_vide(valeurs, "Titre du lieu")
+    arrondissement = valeur_ou_vide(valeurs, "Arrondissement / quartier")
+    types_slugs = extraire_types_coches(valeurs.get("Type(s) d'intervention", ""))
+
+    try:
+        lat = float(valeur_ou_vide(valeurs, "Latitude").replace(',', '.'))
+        lng = float(valeur_ou_vide(valeurs, "Longitude").replace(',', '.'))
+    except ValueError:
+        fail("latitude/longitude invalides (doivent être des nombres).")
+
+    description = valeur_ou_vide(valeurs, "Description courte")
+    auteur = valeur_ou_vide(valeurs, "Votre nom (affiché publiquement)")
+    date_avant = valeur_ou_vide(valeurs, "Date de la photo avant (AAAA-MM)")
+    date_apres = valeur_ou_vide(valeurs, "Date de la photo après (AAAA-MM)")
+
+    with open(POINTS_JSON, encoding='utf-8') as f:
+        points = json.load(f)
+
+    base_slug = slugify(titre)
+    slug = slug_disponible(base_slug, points)
+
+    dossier = os.path.join(POINTS_DIR, slug)
+    os.makedirs(dossier, exist_ok=True)
+
+    url_avant = extraire_url_image(
+        valeurs.get("Photo avant — glissez l'image ici", ""), "Photo avant"
+    )
+    url_apres = extraire_url_image(
+        valeurs.get("Photo après — glissez l'image ici", ""), "Photo après"
+    )
+
+    image_avant = telecharger_image(url_avant, os.path.join(dossier, 'before'))
+    image_apres = telecharger_image(url_apres, os.path.join(dossier, 'after'))
+
+    nouveau_point = {
+        "id": slug,
+        "title": titre,
+        "borough": arrondissement,
+        "lat": lat,
+        "lng": lng,
+        "description": description,
+        "types": types_slugs,
+        "before": {"image": image_avant, "date": date_avant},
+        "after": {"image": image_apres, "date": date_apres},
+    }
+    if auteur:
+        nouveau_point["author"] = auteur
+
+    points.append(nouveau_point)
+    with open(POINTS_JSON, 'w', encoding='utf-8') as f:
+        json.dump(points, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+
+    regenerate_lqip()
+
+    return {
+        'pr_branch': f'lieu/{slug}',
+        'pr_title': f'Nouveau lieu : {titre}',
+        'pr_commit_message': f'Ajout du lieu : {titre}',
+        'pr_body': (
+            f"Intègre automatiquement la soumission de l'issue #{issue_number}.\n\n"
+            f"Closes #{issue_number}\n\n"
+            "Vérifie le rendu (position sur la carte, photos, description) avant de merger."
+        ),
+        'resume': f"Lieu « {titre} » intégré sous l'identifiant « {slug} » (issue #{issue_number}).",
+    }
+
+
+def modifier_lieu(valeurs, issue_number):
+    lien = valeur_ou_vide(valeurs, "Lien du lieu à modifier")
+    point_id = extraire_id_lieu(lien)
+
+    raison = valeur_ou_vide(valeurs, "Raison de la modification")
+    if not raison:
+        fail("le champ « Raison de la modification » est requis.")
+
+    with open(POINTS_JSON, encoding='utf-8') as f:
+        points = json.load(f)
+    point = next((p for p in points if p['id'] == point_id), None)
+    if point is None:
+        fail(f"aucun lieu avec l'identifiant « {point_id} » n'existe dans data/points.json.")
+
+    dossier = os.path.join(POINTS_DIR, point_id)
+    changements = []
+
+    nouvelle_description = valeur_ou_vide(valeurs, "Nouvelle description (optionnel)")
+    if nouvelle_description:
+        point['description'] = nouvelle_description
+        changements.append("description")
+
+    types_slugs = extraire_types_coches(
+        valeurs.get("Type(s) d'intervention (optionnel)", ""), requis=False
+    )
+    if types_slugs:
+        point['types'] = types_slugs
+        changements.append("type(s)")
+
+    photo_avant = valeur_ou_vide(valeurs, "Nouvelle photo avant (optionnel) — glissez l'image ici")
+    if photo_avant:
+        remplacer_image(point, 'before', photo_avant, dossier, "Nouvelle photo avant")
+        changements.append("photo avant")
+
+    date_avant = valeur_ou_vide(valeurs, "Nouvelle date de la photo avant (AAAA-MM, optionnel)")
+    if date_avant:
+        point['before']['date'] = date_avant
+        if "photo avant" not in changements:
+            changements.append("date avant")
+
+    photo_apres = valeur_ou_vide(valeurs, "Nouvelle photo après (optionnel) — glissez l'image ici")
+    if photo_apres:
+        remplacer_image(point, 'after', photo_apres, dossier, "Nouvelle photo après")
+        changements.append("photo après")
+
+    date_apres = valeur_ou_vide(valeurs, "Nouvelle date de la photo après (AAAA-MM, optionnel)")
+    if date_apres:
+        point['after']['date'] = date_apres
+        if "photo après" not in changements:
+            changements.append("date après")
+
+    if not changements:
+        fail("aucune modification proposée (tous les champs optionnels sont vides).")
+
+    with open(POINTS_JSON, 'w', encoding='utf-8') as f:
+        json.dump(points, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+
+    regenerate_lqip()
+
+    changements_txt = ", ".join(changements)
+    return {
+        'pr_branch': f'lieu-maj/{point_id}-{issue_number}',
+        'pr_title': f"Modification : {point['title']}",
+        'pr_commit_message': f"Modification du lieu : {point['title']} ({changements_txt})",
+        'pr_body': (
+            f"Intègre automatiquement la demande de modification de l'issue #{issue_number}.\n\n"
+            f"Raison invoquée : {raison}\n\n"
+            f"Champs modifiés : {changements_txt}.\n\n"
+            f"Closes #{issue_number}\n\n"
+            "Vérifie le rendu avant de merger."
+        ),
+        'resume': f"Lieu « {point['title']} » ({point_id}) modifié : {changements_txt} (issue #{issue_number}).",
+    }
+
+
 def main():
     issue_body = os.environ.get('ISSUE_BODY', '')
     issue_number = os.environ.get('ISSUE_NUMBER', '?')
@@ -152,79 +355,13 @@ def main():
     try:
         valeurs = parse_issue_body(issue_body)
 
-        for champ in ("Titre du lieu", "Arrondissement / quartier",
-                      "Latitude", "Longitude", "Description courte"):
-            if not valeur_ou_vide(valeurs, champ):
-                fail(f"le champ obligatoire « {champ} » est vide ou introuvable.")
+        if valeur_ou_vide(valeurs, "Lien du lieu à modifier"):
+            sortie = modifier_lieu(valeurs, issue_number)
+        else:
+            sortie = creer_nouveau_lieu(valeurs, issue_number)
 
-        titre = valeur_ou_vide(valeurs, "Titre du lieu")
-        arrondissement = valeur_ou_vide(valeurs, "Arrondissement / quartier")
-        types_slugs = extraire_types_coches(valeurs.get("Type(s) d'intervention", ""))
-
-        try:
-            lat = float(valeur_ou_vide(valeurs, "Latitude").replace(',', '.'))
-            lng = float(valeur_ou_vide(valeurs, "Longitude").replace(',', '.'))
-        except ValueError:
-            fail("latitude/longitude invalides (doivent être des nombres).")
-
-        description = valeur_ou_vide(valeurs, "Description courte")
-        auteur = valeur_ou_vide(valeurs, "Votre nom (affiché publiquement)")
-        date_avant = valeur_ou_vide(valeurs, "Date de la photo avant (AAAA-MM)")
-        date_apres = valeur_ou_vide(valeurs, "Date de la photo après (AAAA-MM)")
-
-        with open(POINTS_JSON, encoding='utf-8') as f:
-            points = json.load(f)
-
-        base_slug = slugify(titre)
-        slug = slug_disponible(base_slug, points)
-
-        dossier = os.path.join(POINTS_DIR, slug)
-        os.makedirs(dossier, exist_ok=True)
-
-        url_avant = extraire_url_image(
-            valeurs.get("Photo avant — glissez l'image ici", ""), "Photo avant"
-        )
-        url_apres = extraire_url_image(
-            valeurs.get("Photo après — glissez l'image ici", ""), "Photo après"
-        )
-
-        image_avant = telecharger_image(url_avant, os.path.join(dossier, 'before'))
-        image_apres = telecharger_image(url_apres, os.path.join(dossier, 'after'))
-
-        nouveau_point = {
-            "id": slug,
-            "title": titre,
-            "borough": arrondissement,
-            "lat": lat,
-            "lng": lng,
-            "description": description,
-            "types": types_slugs,
-            "before": {"image": image_avant, "date": date_avant},
-            "after": {"image": image_apres, "date": date_apres},
-        }
-        if auteur:
-            nouveau_point["author"] = auteur
-
-        points.append(nouveau_point)
-        with open(POINTS_JSON, 'w', encoding='utf-8') as f:
-            json.dump(points, f, ensure_ascii=False, indent=2)
-            f.write('\n')
-
-        import importlib.util
-        lqip_spec = importlib.util.spec_from_file_location(
-            'generate_lqip', os.path.join(ROOT, 'scripts', 'generate-lqip.py')
-        )
-        generate_lqip = importlib.util.module_from_spec(lqip_spec)
-        lqip_spec.loader.exec_module(generate_lqip)
-        generate_lqip.main()
-
-        github_output = os.environ.get('GITHUB_OUTPUT')
-        if github_output:
-            with open(github_output, 'a') as f:
-                f.write(f"slug={slug}\n")
-                f.write(f"titre={titre}\n")
-
-        print(f"Lieu « {titre} » intégré sous l'identifiant « {slug} » (issue #{issue_number}).")
+        print(sortie.pop('resume'))
+        ecrire_github_output(sortie)
 
     except ErreurIntegration as e:
         message = f"L'intégration automatique a échoué : {e}"

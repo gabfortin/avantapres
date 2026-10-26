@@ -1,6 +1,6 @@
-# Ajouter un nouveau lieu
+# Ajouter ou modifier un lieu
 
-## Via une soumission publique (recommandé)
+## Ajouter un nouveau lieu, via une soumission publique (recommandé)
 
 Toute personne disposant d'un compte GitHub peut proposer un lieu sans
 avoir à modifier le code :
@@ -32,6 +32,22 @@ avoir à modifier le code :
 Le gabarit (`.github/ISSUE_TEMPLATE/nouveau-lieu.yml`) et le workflow sont
 le détail d'implémentation ; le schéma de `data/points.json` ci-dessous
 reste la référence si une correction manuelle est nécessaire.
+
+## Modifier un lieu existant, via une soumission publique
+
+Même principe, pour corriger ou mettre à jour un lieu déjà publié (photo
+périmée, description à préciser, type à ajuster) : **Issues → New issue →
+« Proposer une modification »**. Le formulaire demande le lien du lieu
+(bouton **Partager** sur sa fiche) et une raison, puis tous les autres
+champs (description, type(s), photos, dates) sont optionnels — laisser
+vide ce qu'on ne souhaite pas changer. Cocher un type remplace la liste
+actuelle au complet ; ne rien cocher la laisse inchangée.
+
+La révision et l'approbation suivent exactement les mêmes étapes que pour
+un nouveau lieu (label `pret-a-publier` → PR de révision à fusionner). Le
+même workflow (`integrer-lieu.yml`) gère les deux gabarits : il détecte de
+quel type de soumission il s'agit à la présence du champ « Lien du lieu à
+modifier » dans l'issue.
 
 ## Manuellement
 

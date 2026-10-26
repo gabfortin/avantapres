@@ -7,7 +7,7 @@ photographique « avant / après », avec les dates des deux prises de vue.
 Il s'agit d'un site entièrement statique (HTML/CSS/JS), sans serveur ni étape
 de compilation, conçu pour être hébergé sur GitHub Pages.
 
-> 📍 Pour proposer ou ajouter un lieu à la carte, consultez
+> 📍 Pour ajouter ou modifier un lieu sur la carte, consultez
 > **[AJOUTER-UN-LIEU.md](AJOUTER-UN-LIEU.md)**.
 
 ## Structure du projet
@@ -20,13 +20,17 @@ data/points.json             liste des lieux affichés sur la carte
 data/points/<slug>/          photos "avant" et "après" de chaque lieu
 ```
 
-## Ajouter un nouveau lieu
+## Ajouter ou modifier un lieu
 
-Toute personne disposant d'un compte GitHub peut proposer un lieu par
-l'entremise d'une issue (gabarit « Proposer un nouveau lieu »). Une fois la
-soumission approuvée (ajout du label `pret-a-publier`), son intégration dans
-`data/points.json` et `data/points/` est automatisée (voir
-[.github/workflows/integrer-lieu.yml](.github/workflows/integrer-lieu.yml)).
+Toute personne disposant d'un compte GitHub peut proposer un nouveau lieu
+ou une modification à un lieu existant (photo, description, type) par
+l'entremise d'une issue (gabarits « Proposer un nouveau lieu » et
+« Proposer une modification »). Une fois la soumission approuvée (ajout du
+label `pret-a-publier`), son intégration dans `data/points.json` et
+`data/points/` est automatisée (voir
+[.github/workflows/integrer-lieu.yml](.github/workflows/integrer-lieu.yml)
+et **[PIPELINE-SOUMISSIONS.md](PIPELINE-SOUMISSIONS.md)** pour le détail
+technique de ce pipeline).
 
 La procédure complète — soumission publique ou ajout manuel (structure des
 dossiers, champs de `data/points.json`, compression des photos, régénération

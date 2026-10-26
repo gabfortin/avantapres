@@ -1,4 +1,4 @@
-name: Intégrer un nouveau lieu
+name: Intégrer une soumission de lieu
 
 on:
   issues:
@@ -35,15 +35,10 @@ jobs:
         id: pr
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "Ajout du lieu : ${{ steps.integration.outputs.titre }}"
-          branch: "lieu/${{ steps.integration.outputs.slug }}"
-          title: "Nouveau lieu : ${{ steps.integration.outputs.titre }}"
-          body: |
-            Intègre automatiquement la soumission de l'issue #${{ github.event.issue.number }}.
-
-            Closes #${{ github.event.issue.number }}
-
-            Vérifie le rendu (position sur la carte, photos, description) avant de merger.
+          commit-message: "${{ steps.integration.outputs.pr_commit_message }}"
+          branch: "${{ steps.integration.outputs.pr_branch }}"
+          title: "${{ steps.integration.outputs.pr_title }}"
+          body: "${{ steps.integration.outputs.pr_body }}"
 
       - name: Commenter l'issue avec le lien de la PR
         if: success() && steps.pr.outputs['pull-request-number']

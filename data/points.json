@@ -203,8 +203,8 @@
     "id": "parc-lahaie",
     "title": "Parc Lahaie",
     "borough": "Plateau-Mont-Royal",
-    "lat": 45.519187,
-    "lng": -73.583187,
+    "lat": 45.52320077941861, 
+    "lng": -73.59165045468279,
     "description": "Le désasphaltage et réaménagement de la rue Saint-Dominique devant l'église Saint-Enfant-Jésus a permis d'installer une fontaine, une promenade piétonnière, des bancs et des plantations là où il y avait du stationnement et ainsi d'agrandir le parc Lahaie dans le Mile End.",
     "types": [
       "agrandissement-parc"
