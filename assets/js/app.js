@@ -59,13 +59,21 @@
     </svg>`;
   }
 
+  function accessibilityIconSvg(color) {
+    return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="4.5" r="2" fill="${color}"/>
+      <path d="M12 8c-3.9 0-7 1.3-7 4.5h5l-1.4 8 2.4.4L13 15h0l2 6 2.4-.5-1.6-7.9c1.6-.5 2.7-1.6 2.7-2.6 0-.9-.9-1.1-2-1.1H12Z" fill="${color}"/>
+    </svg>`;
+  }
+
   const PIN_TYPES = {
     vegetalisation: { icon: leafIconSvg, label: 'Végétalisation', emoji: '🌱' },
     'agrandissement-parc': { icon: treeIconSvg, label: 'Agrandissement de parc', emoji: '🌳' },
     'place-ecole': { icon: schoolIconSvg, label: 'Place-école', emoji: '🎓' },
     'panneau-publicitaire': { icon: billboardIconSvg, label: 'Panneau publicitaire', emoji: '📋' },
     'espace-pieton': { icon: pedestrianIconSvg, label: 'Espace piéton', emoji: '🚶' },
-    'apaisement-de-circulation': { icon: trafficCalmingIconSvg, label: 'Apaisement de la circulation', emoji: '🚧' }
+    'apaisement-de-circulation': { icon: trafficCalmingIconSvg, label: 'Apaisement de la circulation', emoji: '🚧' },
+    'accessibilite-universelle': { icon: accessibilityIconSvg, label: "Accessibilité universelle", emoji: '♿' }
   };
   const DEFAULT_PIN_TYPE = 'vegetalisation';
 

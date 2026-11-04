@@ -32,6 +32,7 @@ TYPE_PAR_LABEL = {
     "Retrait d'un panneau publicitaire": "panneau-publicitaire",
     "Création d'un espace piéton": "espace-pieton",
     "Apaisement de la circulation": "apaisement-de-circulation",
+    "Amélioration de l'accessibilité universelle": "accessibilite-universelle",
 }
 
 MAX_WIDTH = 1500

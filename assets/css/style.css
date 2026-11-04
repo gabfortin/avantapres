@@ -17,6 +17,9 @@
   --amber: #d97706;
   --amber-dark: #b45309;
   --amber-light: #fbbf24;
+  --teal: #0d9488;
+  --teal-dark: #0f766e;
+  --teal-light: #2dd4bf;
   --ink-900: #0b1120;
   --ink-700: #33413a;
   --ink-500: #5b6b62;
@@ -455,6 +458,9 @@ a { color: inherit; }
 .type-sidebar-item.type-apaisement-de-circulation .type-sidebar-swatch {
   background: linear-gradient(140deg, var(--amber-light), var(--amber-dark));
 }
+.type-sidebar-item.type-accessibilite-universelle .type-sidebar-swatch {
+  background: linear-gradient(140deg, var(--teal-light), var(--teal-dark));
+}
 
 .type-sidebar-label { flex: 1; color: var(--ink-900); }
 
@@ -607,6 +613,15 @@ a { color: inherit; }
   box-shadow: 0 10px 20px -4px rgba(180, 83, 9, 0.75);
 }
 
+.growth-marker.type-accessibilite-universelle .pin {
+  background: linear-gradient(140deg, var(--teal-light), var(--teal-dark));
+  box-shadow: 0 6px 14px -4px rgba(15, 118, 110, 0.6);
+}
+.growth-marker.type-accessibilite-universelle .ring { background: var(--teal); }
+.growth-marker.type-accessibilite-universelle:hover .pin {
+  box-shadow: 0 10px 20px -4px rgba(15, 118, 110, 0.75);
+}
+
 @keyframes pulse-ring {
   0% { transform: scale(0.6); opacity: 0.45; }
   80% { transform: scale(1.7); opacity: 0; }
@@ -713,6 +728,9 @@ a { color: inherit; }
 
 .popup-btn.type-apaisement-de-circulation { background: var(--amber-dark); }
 .popup-btn.type-apaisement-de-circulation:hover { background: var(--amber); }
+
+.popup-btn.type-accessibilite-universelle { background: var(--teal-dark); }
+.popup-btn.type-accessibilite-universelle:hover { background: var(--teal); }
 
 /* ---------- Mission banner ---------- */
 
@@ -1199,6 +1217,7 @@ a { color: inherit; }
 .detail-eyebrow.type-agrandissement-parc { color: var(--forest-dark); background: rgba(20, 83, 45, 0.1); }
 .detail-eyebrow.type-espace-pieton { color: var(--blue-dark); background: rgba(37, 99, 235, 0.1); }
 .detail-eyebrow.type-apaisement-de-circulation { color: var(--amber-dark); background: rgba(180, 83, 9, 0.1); }
+.detail-eyebrow.type-accessibilite-universelle { color: var(--teal-dark); background: rgba(15, 118, 110, 0.1); }
 
 .detail-body h2 {
   margin: 0 0 6px;

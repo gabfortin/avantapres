@@ -91,6 +91,8 @@ modifier » dans l'issue.
   - `espace-pieton` (silhouette bleue) — création d'un espace piéton.
   - `apaisement-de-circulation` (chevrons orange) — mesures d'apaisement
     de la circulation (dos d'âne, rétrécissement de chaussée, etc.).
+  - `accessibilite-universelle` (pictogramme sarcelle) — amélioration de
+    l'accessibilité universelle (rampes, surfaces podotactiles, etc.).
 
 - `lat` / `lng` : coordonnées GPS du lieu (clic droit sur Google Maps → copier
   les coordonnées, ou utiliser [OpenStreetMap](https://www.openstreetmap.org)).

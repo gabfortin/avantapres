@@ -45,6 +45,7 @@ body:
         - label: "Retrait d'un panneau publicitaire"
         - label: "Création d'un espace piéton"
         - label: "Apaisement de la circulation"
+        - label: "Amélioration de l'accessibilité universelle"
 
   - type: input
     id: lat
