@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f7f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1310" media="(prefers-color-scheme: dark)">
   <title>Confidentialité — Avant / Après</title>
   <meta name="description" content="Politique de confidentialité d'Avant / Après.">
   <meta name="author" content="Gabriel Fortin">
@@ -98,6 +100,30 @@
     @media (max-width: 600px) {
       .card { padding: 20px 18px; }
       h1 { font-size: 22px; }
+    }
+    /* Mode sombre : valeurs du dashboard verre (MAP-DESIGN-SYSTEM.md) */
+    @media (prefers-color-scheme: dark) {
+      :root { color-scheme: dark; }
+      html { background: #0b1310; }
+      body {
+        color: #b4c4bb;
+        background:
+          radial-gradient(40vmax 40vmax at 90% 0%, rgba(22, 163, 74, 0.10), transparent 62%),
+          radial-gradient(36vmax 36vmax at 0% 100%, rgba(129, 140, 248, 0.08), transparent 62%),
+          #0b1310;
+        background-attachment: fixed;
+      }
+      .back, .card {
+        background: rgba(34, 45, 40, 0.82);
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 24px 60px -16px rgba(0, 0, 0, 0.6);
+      }
+      .back, a { color: #4ade80; }
+      h1, h2, strong { color: #e4eee8; }
+      .updated { color: #8b9d94; }
+      h2 { border-bottom-color: rgba(255, 255, 255, 0.08); }
+      .summary { background: rgba(22, 163, 74, 0.16); border-color: rgba(22, 163, 74, 0.3); }
+      code { background: rgba(255, 255, 255, 0.08); }
     }
   </style>
 </head>

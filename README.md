@@ -75,6 +75,10 @@ l'intégration des soumissions de lieux (voir la section précédente).
 > `<utilisateur>.github.io`. Voir la
 > [documentation GitHub sur les domaines personnalisés](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).
 
+## Mode sombre
+
+Le site suit le mode clair ou sombre de l'appareil, selon la recette commune des cartes (`~/Developer/MAP-DESIGN-SYSTEM.md`, section « Mode sombre »). Toutes les couleurs de surface et de texte passent par les jetons du `:root` de `assets/css/style.css`, redéfinis dans le bloc `@media (prefers-color-scheme: dark)`. Les textes de marque utilisent `--brand-ink` et les étiquettes de catégorie les jetons `--*-ink` (versions claires en sombre) ; les fonds, pins et boutons gardent les couleurs `--*-dark`. La page de confidentialité a aussi son mode sombre.
+
 ## Technologies
 
 - [Leaflet](https://leafletjs.com/) et les fonds de carte
