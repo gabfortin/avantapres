@@ -1,96 +1,123 @@
 # Avant / Après — Amélioration de l'espace public
 
-Site statique présentant une carte interactive des espaces publics transformés
-et verdis à Montréal. Chaque point de la carte présente une comparaison
-photographique « avant / après », avec les dates des deux prises de vue.
+Carte interactive des espaces publics transformés et verdis à Montréal : chaque
+lieu montre une comparaison photographique « avant / après », avec les dates
+des deux prises de vue. Pour montrer concrètement ce que change un
+réaménagement, et pour que le public propose ses propres lieux.
 
-Il s'agit d'un site entièrement statique (HTML/CSS/JS), sans serveur ni étape
-de compilation, conçu pour être hébergé sur GitHub Pages.
+**En ligne :** [avant-apres.ca](https://avant-apres.ca)
 
-> 📍 Pour ajouter ou modifier un lieu sur la carte, consultez
+> Pour ajouter ou modifier un lieu sur la carte, voir
 > **[AJOUTER-UN-LIEU.md](AJOUTER-UN-LIEU.md)**.
 
-## Structure du projet
+## Contenu
 
-```
-index.html                  page unique de l'application
-assets/css/style.css         styles
-assets/js/app.js             logique (carte Leaflet, filtre, slider avant/après)
-data/points.json             liste des lieux affichés sur la carte
-data/points/<slug>/          photos "avant" et "après" de chaque lieu
-```
+| Élément | Ce qu'il fait |
+|---|---|
+| **Carte** | Un marqueur par lieu, coloré selon son type, filtrable par arrondissement |
+| **Comparateur avant / après** | Curseur à glisser (souris et toucher) entre les deux photos |
+| **Pages de partage** | Une page par lieu (`lieu/<id>/`), avec son propre aperçu pour les réseaux sociaux |
+| **Bouton « i »** | Fenêtre « À propos », signature et lien Confidentialité |
 
-## Ajouter ou modifier un lieu
+Mode sombre selon l'appareil.
 
-Toute personne disposant d'un compte GitHub peut proposer un nouveau lieu
-ou une modification à un lieu existant (photo, description, type) par
-l'entremise d'une issue (gabarits « Proposer un nouveau lieu » et
-« Proposer une modification »). Une fois la soumission approuvée (ajout du
-label `pret-a-publier`), son intégration dans `data/points.json` et
-`data/points/` est automatisée (voir
-[.github/workflows/integrer-lieu.yml](.github/workflows/integrer-lieu.yml)
-et **[PIPELINE-SOUMISSIONS.md](PIPELINE-SOUMISSIONS.md)** pour le détail
-technique de ce pipeline).
+## Données
 
-La procédure complète — soumission publique ou ajout manuel (structure des
-dossiers, champs de `data/points.json`, compression des photos, régénération
-des miniatures) — est détaillée dans
-**[AJOUTER-UN-LIEU.md](AJOUTER-UN-LIEU.md)**.
+### Sources
 
-## Développement local
+| Source | Producteur | Utilisée pour |
+|---|---|---|
+| `data/points.json` et `data/points/<slug>/` | Gabriel Fortin, Alex Norris et les contributions du public | Lieux, descriptions et photos |
+| [OpenStreetMap](https://www.openstreetmap.org) | Contributeurs d'OpenStreetMap, ODbL | Fond de carte |
 
-Le site charge `data/points.json` par requête `fetch` ; il doit donc être
-servi par un serveur local (l'ouverture directe de `index.html` en `file://`
-ne fonctionne pas, en raison des restrictions CORS des navigateurs) :
+### Mise à jour
+
+**Contributions du public** : toute personne avec un compte GitHub peut
+proposer un lieu ou une modification par une issue (gabarits « Proposer un
+nouveau lieu » et « Proposer une modification »). Quand la soumission reçoit
+le label `pret-a-publier`,
+[`.github/workflows/integrer-lieu.yml`](.github/workflows/integrer-lieu.yml)
+l'intègre à `data/points.json` et `data/points/` dans une PR. Détail :
+[PIPELINE-SOUMISSIONS.md](PIPELINE-SOUMISSIONS.md).
+
+**À la main** : structure des dossiers, champs de `data/points.json`,
+compression des photos et miniatures : [AJOUTER-UN-LIEU.md](AJOUTER-UN-LIEU.md).
+
+**Automatique, après chaque changement de lieu** :
+[`.github/workflows/generer-pages.yml`](.github/workflows/generer-pages.yml)
+régénère les pages de partage `lieu/<id>/` (`scripts/generate-pages.py`) à
+chaque push qui touche `data/points.json`, `data/points/` ou ce script.
+
+## Utilisation locale
 
 ```bash
-python3 -m http.server 8000
-# puis ouvrir http://localhost:8000
+python3 -m http.server 8000   # http://localhost:8000
 ```
 
-## Déploiement sur GitHub Pages
+Un serveur est nécessaire : la page charge `data/points.json` par requête
+réseau (`file://` ne fonctionne pas).
 
-1. Poussez ce dépôt sur GitHub.
-2. Dans le dépôt : **Settings → Pages**.
-3. Sous « Build and deployment », sélectionnez **Deploy from a branch**.
-4. Choisissez la branche `main` et le dossier `/ (root)`.
-5. Enregistrez. Le site sera accessible après quelques minutes à l'adresse
-   `https://<utilisateur>.github.io/<nom-du-dépôt>/`.
+## Architecture
 
-Aucun workflow GitHub Actions n'est requis pour le déploiement : le site
-demeure entièrement statique. Un workflow distinct automatise par ailleurs
-l'intégration des soumissions de lieux (voir la section précédente).
+| Fichier | Rôle |
+|---|---|
+| `index.html` | Page de la carte |
+| `confidentialite.html` | Politique de confidentialité (avec mode sombre) |
+| `assets/js/app.js` | Carte Leaflet, filtre, comparateur avant/après |
+| `assets/css/style.css` | Styles : jetons du `:root`, redéfinis pour le mode sombre |
+| `data/points.json` | Liste des lieux |
+| `data/points/<slug>/` | Photos « avant » et « après » de chaque lieu |
+| `data/image-lqip.json` | Aperçus flous des photos (`scripts/generate-lqip.py`) |
+| `lieu/<id>/` | Pages de partage générées par `scripts/generate-pages.py` |
+| `scripts/integrate_submission.py` | Intégration d'une issue de soumission |
+| `sw.js` | Service worker qui garde en cache les tuiles OpenStreetMap |
+| `.github/ISSUE_TEMPLATE/` | Gabarits des issues de soumission |
+| `llms.txt`, `robots.txt`, `sitemap.xml` | Référencement |
 
-> Les balises `og:image` / `og:url` / `twitter:image` / `canonical` dans
-> `index.html` pointent vers le domaine personnalisé `https://avant-apres.ca/`
-> (voir le fichier `CNAME`). Si ce domaine devait changer, ces URL devront
-> être mises à jour, ainsi que `sitemap.xml`, `robots.txt`, `llms.txt` et le
-> JSON-LD du `<head>`, afin que l'aperçu de partage et l'attribution
-> demeurent corrects.
->
-> Le domaine `avant-apres.ca` doit également être configuré chez le
-> registraire (GoDaddy) pour pointer vers GitHub Pages : un enregistrement
-> `ALIAS`/`ANAME` (ou les quatre adresses IP `A` de GitHub Pages) sur
-> l'apex, et idéalement un enregistrement `CNAME` sur `www` vers
-> `<utilisateur>.github.io`. Voir la
-> [documentation GitHub sur les domaines personnalisés](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).
+**Origine du système de design des cartes** ([MAP-DESIGN-SYSTEM.md](../MAP-DESIGN-SYSTEM.md)) :
+textes de marque en `--brand-ink`, étiquettes de catégorie en `--*-ink`
+(versions claires en sombre), fonds, marqueurs et boutons en `--*-dark`.
 
-## Mode sombre
+## Publication
 
-Le site suit le mode clair ou sombre de l'appareil, selon la recette commune des cartes (`~/Developer/MAP-DESIGN-SYSTEM.md`, section « Mode sombre »). Toutes les couleurs de surface et de texte passent par les jetons du `:root` de `assets/css/style.css`, redéfinis dans le bloc `@media (prefers-color-scheme: dark)`. Les textes de marque utilisent `--brand-ink` et les étiquettes de catégorie les jetons `--*-ink` (versions claires en sombre) ; les fonds, pins et boutons gardent les couleurs `--*-dark`. La page de confidentialité a aussi son mode sombre.
+GitHub Pages, branche `main`, domaine dans `CNAME` : `avant-apres.ca`,
+enregistré chez **Namecheap** (apex en `ALIAS`/`ANAME` ou les quatre adresses
+`A` de GitHub Pages, `www` en `CNAME`). (Ce site n'a pas encore le numéro de
+version x.y.z des autres sites.)
 
-## Technologies
+Si le domaine change : mettre à jour `og:image`, `og:url`, `twitter:image`,
+`canonical` et le JSON-LD de `index.html`, ainsi que `sitemap.xml`,
+`robots.txt` et `llms.txt`.
 
-- [Leaflet](https://leafletjs.com/) et les fonds de carte
-  [OpenStreetMap](https://www.openstreetmap.org/) (filtre CSS pour un rendu
-  plus sobre), pour la carte interactive — chargés via CDN, sans clé API
-  requise.
-- JavaScript natif pour le comparateur avant/après (glisser-déposer à la
-  souris et au toucher).
-- Polices [Inter](https://fonts.google.com/specimen/Inter) et
-  [Poppins](https://fonts.google.com/specimen/Poppins), via Google Fonts.
+## Confidentialité
 
-## Auteur
+Aucun cookie ni compte.
 
-Créé et maintenu par [Gabriel Fortin](https://gabfortin.com), en
-collaboration avec Projet Montréal.
+| Quand | Ce qui est envoyé | À qui |
+|---|---|---|
+| Chaque visite | Page, site d'origine, appareil, pays | GoatCounter (mesure d'audience anonyme) |
+| Chaque visite | Leaflet | unpkg |
+| Chaque visite | Polices Inter et Poppins | Google Fonts |
+| Carte | Requêtes de tuiles de la zone affichée | OpenStreetMap |
+| Proposer un lieu | Le contenu de l'issue | GitHub (compte de la personne) |
+
+Détails : [confidentialite.html](confidentialite.html), à mettre à jour (avec
+sa date) si un service externe est ajouté.
+
+## Crédits
+
+- [Leaflet](https://leafletjs.com) 1.9.4 (BSD-2-Clause), chargé depuis unpkg
+- Polices [Inter](https://fonts.google.com/specimen/Inter) et [Poppins](https://fonts.google.com/specimen/Poppins) (SIL OFL 1.1), depuis Google Fonts
+- Fond de carte © les contributeurs d'[OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL)
+
+## Auteurs
+
+Développé par [Gabriel Fortin](https://gabfortin.com) et Alex Norris, avec
+Projet Montréal.
+
+## Documentation détaillée
+
+| Fichier | Contenu |
+|---|---|
+| [AJOUTER-UN-LIEU.md](AJOUTER-UN-LIEU.md) | Proposer un lieu par issue, ou l'ajouter à la main |
+| [PIPELINE-SOUMISSIONS.md](PIPELINE-SOUMISSIONS.md) | Fonctionnement technique de l'intégration des soumissions |
