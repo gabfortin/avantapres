@@ -28,7 +28,7 @@ Mode sombre selon l'appareil.
 | Source | Producteur | Utilisée pour |
 |---|---|---|
 | `data/points.json` et `data/points/<slug>/` | Gabriel Fortin, Alex Norris et les contributions du public | Lieux, descriptions et photos |
-| [OpenStreetMap](https://www.openstreetmap.org) | Contributeurs d'OpenStreetMap, ODbL | Fond de carte |
+| [OpenFreeMap](https://openfreemap.org), à partir d'[OpenStreetMap](https://www.openstreetmap.org) | Contributeurs d'OpenStreetMap, ODbL ; OpenMapTiles | Fond de carte |
 
 ### Mise à jour
 
@@ -63,14 +63,15 @@ réseau (`file://` ne fonctionne pas).
 |---|---|
 | `index.html` | Page de la carte |
 | `confidentialite.html` | Politique de confidentialité (avec mode sombre) |
-| `assets/js/app.js` | Carte Leaflet, filtre, comparateur avant/après |
+| `assets/js/app.js` | Carte (API de Leaflet), filtre, comparateur avant/après |
+| `assets/vendor/carte/` | Composant de carte commun (modèle `~/Developer/outils/communs/carte/`) : API de Leaflet dessinée par MapLibre, fond OpenFreeMap |
 | `assets/css/style.css` | Styles : jetons du `:root`, redéfinis pour le mode sombre |
 | `data/points.json` | Liste des lieux |
 | `data/points/<slug>/` | Photos « avant » et « après » de chaque lieu |
 | `data/image-lqip.json` | Aperçus flous des photos (`scripts/generate-lqip.py`) |
 | `lieu/<id>/` | Pages de partage générées par `scripts/generate-pages.py` |
 | `scripts/integrate_submission.py` | Intégration d'une issue de soumission |
-| `sw.js` | Service worker qui garde en cache les tuiles OpenStreetMap |
+| `sw.js` | Ancien service worker (cache des tuiles OSM) : efface son cache et se désinstalle ; à supprimer dans quelques mois |
 | `.github/ISSUE_TEMPLATE/` | Gabarits des issues de soumission |
 | `llms.txt`, `robots.txt`, `sitemap.xml` | Référencement |
 
@@ -96,9 +97,8 @@ Aucun cookie ni compte.
 | Quand | Ce qui est envoyé | À qui |
 |---|---|---|
 | Chaque visite | Page, site d'origine, appareil, pays | GoatCounter (mesure d'audience anonyme) |
-| Chaque visite | Leaflet | unpkg |
 | Chaque visite | Polices Inter et Poppins | Google Fonts |
-| Carte | Requêtes de tuiles de la zone affichée | OpenStreetMap |
+| Carte | Fond de carte de la zone affichée | OpenFreeMap |
 | Proposer un lieu | Le contenu de l'issue | GitHub (compte de la personne) |
 
 Détails : [confidentialite.html](confidentialite.html), à mettre à jour (avec
@@ -106,7 +106,7 @@ sa date) si un service externe est ajouté.
 
 ## Crédits
 
-- [Leaflet](https://leafletjs.com) 1.9.4 (BSD-2-Clause), chargé depuis unpkg
+- [MapLibre GL JS](https://maplibre.org) (BSD-3-Clause) et le composant de carte commun (API de Leaflet), hébergés dans `assets/vendor/carte/` ; fond [OpenFreeMap](https://openfreemap.org), © [OpenMapTiles](https://www.openmaptiles.org)
 - Polices [Inter](https://fonts.google.com/specimen/Inter) et [Poppins](https://fonts.google.com/specimen/Poppins) (SIL OFL 1.1), depuis Google Fonts
 - Fond de carte © les contributeurs d'[OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL)
 

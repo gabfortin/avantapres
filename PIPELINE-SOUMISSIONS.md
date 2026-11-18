@@ -108,4 +108,6 @@ expressions ternaires GitHub Actions.
   cassée, vérifier le contenu réel d'une tuile, pas juste son code
   retour. CARTO (`basemaps.cartocdn.com`) a été envisagé comme
   alternative mais exige désormais une clé API (même symptôme : 200 avec
-  un visuel « API key required »).
+  un visuel « API key required »). **Réglé le 17 novembre 2026** : le
+  fond de carte vient maintenant d'OpenFreeMap (tuiles vectorielles, sans
+  clé), par le composant de carte commun `assets/vendor/carte/`.

@@ -158,21 +158,7 @@
     L.control.zoom({ position: 'bottomright' }).addTo(state.map);
     L.control.attribution({ position: 'bottomright' }).addTo(state.map);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      // No {s} subdomain sharding: on HTTP/2 (which these servers support)
-      // a single reused, multiplexed connection beats splitting requests
-      // across a/b/c hosts, which only pays off on HTTP/1.1.
-      //
-      // CARTO's basemap CDN (basemaps.cartocdn.com) looked like a free,
-      // CDN-backed alternative, but as of now it requires an API key —
-      // anonymous requests return HTTP 200 with a tiny "API key required"
-      // placeholder image instead of a real tile, so it's not usable here
-      // without signing up for one.
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19,
-      className: 'map-tiles-muted',
-      updateWhenZooming: false
-    }).addTo(state.map);
+    // Fond de carte : OpenFreeMap (Positron, ou Dark en mode sombre), posé par assets/vendor/carte/carte.js
   }
 
   async function loadPoints() {
