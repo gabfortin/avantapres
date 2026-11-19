@@ -121,3 +121,4 @@ Projet Montréal.
 |---|---|
 | [AJOUTER-UN-LIEU.md](AJOUTER-UN-LIEU.md) | Proposer un lieu par issue, ou l'ajouter à la main |
 | [PIPELINE-SOUMISSIONS.md](PIPELINE-SOUMISSIONS.md) | Fonctionnement technique de l'intégration des soumissions |
+| [NOTES.md](NOTES.md) | Décisions de design : bouton « i » à droite, « Supporter » dans la modale |
