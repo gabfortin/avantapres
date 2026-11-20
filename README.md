@@ -66,6 +66,7 @@ réseau (`file://` ne fonctionne pas).
 | `assets/js/app.js` | Carte (API de Leaflet), filtre, comparateur avant/après |
 | `assets/vendor/carte/` | Composant de carte commun (modèle `~/Developer/outils/communs/carte/`) : API de Leaflet dessinée par MapLibre, fond OpenFreeMap |
 | `assets/css/style.css` | Styles : jetons du `:root`, redéfinis pour le mode sombre |
+| `assets/js/chargement.js`, `assets/css/chargement.css`, `assets/css/chargement-balayage.css` | Animation d'attente : base commune (copie de `outils/communs/`) et scène (comparateur qui révèle la rue verdie) |
 | `data/points.json` | Liste des lieux |
 | `data/points/<slug>/` | Photos « avant » et « après » de chaque lieu |
 | `data/image-lqip.json` | Aperçus flous des photos (`scripts/generate-lqip.py`) |
@@ -97,7 +98,6 @@ Aucun cookie ni compte.
 | Quand | Ce qui est envoyé | À qui |
 |---|---|---|
 | Chaque visite | Page, site d'origine, appareil, pays | GoatCounter (mesure d'audience anonyme) |
-| Chaque visite | Polices Inter et Poppins | Google Fonts |
 | Carte | Fond de carte de la zone affichée | OpenFreeMap |
 | Proposer un lieu | Le contenu de l'issue | GitHub (compte de la personne) |
 
@@ -107,7 +107,7 @@ sa date) si un service externe est ajouté.
 ## Crédits
 
 - [MapLibre GL JS](https://maplibre.org) (BSD-3-Clause) et le composant de carte commun (API de Leaflet), hébergés dans `assets/vendor/carte/` ; fond [OpenFreeMap](https://openfreemap.org), © [OpenMapTiles](https://www.openmaptiles.org)
-- Polices [Inter](https://fonts.google.com/specimen/Inter) et [Poppins](https://fonts.google.com/specimen/Poppins) (SIL OFL 1.1), depuis Google Fonts
+- Polices [Inter](https://fonts.google.com/specimen/Inter) et [Poppins](https://fonts.google.com/specimen/Poppins) (SIL OFL 1.1), hébergées dans `fonts/` (modèle commun `outils/communs/polices/`)
 - Fond de carte © les contributeurs d'[OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL)
 
 ## Auteurs

@@ -4,6 +4,15 @@
     "assets/vendor/carte/maplibre-gl.css": "carte/maplibre-gl.css",
     "assets/vendor/carte/carte.js": "carte/carte.js",
     "assets/vendor/carte/carte.css": "carte/carte.css",
-    "assets/vendor/carte/LICENSE-maplibre.txt": "carte/LICENSE-maplibre.txt"
+    "assets/vendor/carte/LICENSE-maplibre.txt": "carte/LICENSE-maplibre.txt",
+    "fonts/inter-latin.woff2": "polices/inter-latin.woff2",
+    "fonts/inter-latin-ext.woff2": "polices/inter-latin-ext.woff2",
+    "fonts/poppins-600-latin.woff2": "polices/poppins-600-latin.woff2",
+    "fonts/poppins-700-latin.woff2": "polices/poppins-700-latin.woff2",
+    "fonts/OFL-Inter.txt": "polices/OFL-Inter.txt",
+    "fonts/OFL-Poppins.txt": "polices/OFL-Poppins.txt",
+    "fonts/polices.css": "polices/polices.css",
+    "assets/css/chargement.css": "chargement.css",
+    "assets/js/chargement.js": "chargement.js"
   }
 }

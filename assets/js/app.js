@@ -161,9 +161,19 @@
     // Fond de carte : OpenFreeMap (Positron, ou Dark en mode sombre), posé par assets/vendor/carte/carte.js
   }
 
+  // Animation d'attente (base commune assets/js/chargement.js, scène
+  // assets/css/chargement-balayage.css) : le comparateur révèle la rue verdie.
+  const SCENE_BALAYAGE = '<span class="a-avant"></span><span class="a-apres"><i class="a-arbre a-arbre-1"></i>' +
+    '<i class="a-arbre a-arbre-2"></i><i class="a-arbre a-arbre-3"></i><i class="a-piste"></i></span><span class="a-poignee"></span>';
+
   async function loadPoints() {
     const status = document.getElementById('map-status');
     const statusText = document.getElementById('map-status-text');
+    status.classList.add('hidden');
+    const attente = window.Chargement && Chargement.creer({
+      scene: SCENE_BALAYAGE, classe: 'ch-balayage', mode: 'flottant',
+      titre: 'Chargement des lieux…', detail: 'Les espaces publics transformés, avant et après',
+    });
 
     try {
       const [res, lqipRes] = await Promise.all([
@@ -180,10 +190,11 @@
       populateBoroughFilter(points);
       populateTypeSidebar(points);
       updateStats(points);
-      status.classList.add('hidden');
+      if (attente) attente.fermer();
       openFromUrl();
     } catch (err) {
       console.error('Impossible de charger data/points.json', err);
+      if (attente) attente.fermer();
       status.classList.remove('hidden');
       status.classList.add('error');
       statusText.textContent = 'Impossible de charger les lieux. ';

@@ -512,11 +512,11 @@
       "vegetalisation"
     ],
     "before": {
-      "image": "data/points/lariviere-delorimier/before.png",
+      "image": "data/points/lariviere-delorimier/before.jpg",
       "date": "2020-11"
     },
     "after": {
-      "image": "data/points/lariviere-delorimier/after.png",
+      "image": "data/points/lariviere-delorimier/after.jpg",
       "date": "2026-10"
     }
   },

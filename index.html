@@ -15,7 +15,7 @@
   <meta property="og:site_name" content="Avant / Après">
   <meta property="og:title" content="Avant / Après — Amélioration de l'espace public">
   <meta property="og:description" content="Ce site documente l'amélioration de l'espace public à Montréal avec Projet Montréal.">
-  <meta property="og:image" content="https://avant-apres.ca/assets/img/og-image.png">
+  <meta property="og:image" content="https://avant-apres.ca/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://avant-apres.ca/">
@@ -23,7 +23,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Avant / Après — Amélioration de l'espace public">
   <meta name="twitter:description" content="Ce site documente l'amélioration de l'espace public à Montréal avec Projet Montréal.">
-  <meta name="twitter:image" content="https://avant-apres.ca/assets/img/og-image.png">
+  <meta name="twitter:image" content="https://avant-apres.ca/assets/img/og-image.jpg">
 
   <script type="application/ld+json">
   {
@@ -50,9 +50,7 @@
   <script>window.goatcounter = {path: function(p) { return location.host + p }}</script>
   <script data-goatcounter="https://gabfortin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts/polices.css">
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
 
   <!-- Composant de carte commun (API de Leaflet dessinée par MapLibre, fond OpenFreeMap), hébergé dans le dépôt -->
@@ -60,6 +58,8 @@
   <link rel="stylesheet" href="assets/vendor/carte/carte.css?v=1">
 
   <link rel="stylesheet" href="assets/css/style.css?v=37">
+  <link rel="stylesheet" href="assets/css/chargement.css?v=1">
+  <link rel="stylesheet" href="assets/css/chargement-balayage.css?v=1">
 </head>
 <body>
 
@@ -126,7 +126,7 @@
     <button class="mission-banner-close" id="mission-banner-close" aria-label="Fermer ce message">✕</button>
   </div>
 
-  <div class="map-status" id="map-status" role="status">
+  <div class="map-status hidden" id="map-status" role="status">
     <span class="map-status-spinner"></span>
     <span id="map-status-text">Chargement des lieux…</span>
   </div>
@@ -248,7 +248,8 @@
 
   <script src="assets/vendor/carte/maplibre-gl.js"></script>
   <script src="assets/vendor/carte/carte.js?v=1"></script>
-  <script src="assets/js/app.js?v=22"></script>
+  <script src="assets/js/chargement.js?v=1"></script>
+  <script src="assets/js/app.js?v=23"></script>
   <script>
     // Ancien service worker (cache des tuiles OSM) : sw.js se désinstalle maintenant lui-même
     if ('serviceWorker' in navigator) {
