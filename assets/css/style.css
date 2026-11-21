@@ -308,40 +308,19 @@ a { color: inherit; }
 
 .about-btn {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  background: linear-gradient(140deg, var(--brand-light), var(--brand-dark));
-  color: #fff;
-  cursor: pointer;
-  flex-shrink: 0;
-  box-shadow: 0 4px 14px -4px rgba(15, 122, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  padding: 0;
+  border: 1.5px solid currentColor; background: transparent;
+  color: var(--gf-info-trait, var(--brand-ink, var(--brand-dark))); cursor: pointer;
+  transition: background-color .2s ease;
 }
 
 .about-btn svg { width: 16px; height: 16px; position: relative; z-index: 1; }
 
-.about-btn::before {
-  content: '';
-  position: absolute;
-  inset: -5px;
-  border-radius: 50%;
-  border: 2px solid var(--brand);
-  opacity: 0.4;
-  animation: pulse-ring 2.6s ease-out infinite;
-  pointer-events: none;
-}
 
-.about-btn:hover {
-  box-shadow: 0 8px 22px -4px rgba(15, 122, 55, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  transform: translateY(-1px) scale(1.1);
-}
+.about-btn:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 
-.about-btn:active { transform: scale(0.94); }
 
 .header-spacer { flex: 1; }
 
@@ -1083,7 +1062,7 @@ a { color: inherit; }
   transition: background 0.18s var(--ease), transform 0.18s var(--ease);
 }
 .about-don svg { width: 13px; height: 13px; fill: currentColor; }
-.about-don:hover { background: var(--surface-hover); transform: scale(1.04); }
+.about-don:hover { background: var(--surface-hover); }
 .about-don:focus-visible { outline: 2px solid var(--brand-ink); outline-offset: 2px; }
 /* « Supporter » ne tient pas à côté du texte de l'élu sur téléphone : cœur seul
    (le nom complet reste lu par les lecteurs d'écran, span.sr-only). */
@@ -1091,7 +1070,7 @@ a { color: inherit; }
   .about-don { padding: 0; width: 32px; height: 32px; justify-content: center; }
   .about-don > span[aria-hidden="true"] { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .about-don { transition: none; } .about-don:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .about-don { transition: none; } }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
